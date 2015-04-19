@@ -20,6 +20,7 @@
 \usepackage{fancyhdr}
 \usepackage{multicol}
 \usepackage{url}
+\usepackage{gensymb}
 
 \usetikzlibrary{calc}
 \usetikzlibrary{patterns}
@@ -85,8 +86,13 @@
 \item[\textbf{Task 1.3.}]
 
     \begin{enumerate}
-        \item[1)]
-        \item[2)] If we rotate an object around one axis, the coordinate system changes in the other two axis, but not in the rotated one. Rotating again around the same axis is senseless, because we could have achieved that by the first rotation. So we have the following number of rotation sequences:
+        \item[1)] Examples for $\phi, \theta, \psi$ are:
+        	\begin{enumerate}
+        		\item $90\degree, -20\degree, 30\degree$ in $ZY'X''$ means a $90\degree$ rotation around the z-axis, a rotation by $-20\degree$ around the newly defined y-axis and a $30\degree$ rotation around the new frame's x-axis.
+        		\item $-15\degree, 100\degree, 12\degree$ in $XZ'Y''$ means a $-15\degree$ rotation around the x-axis, a rotation by $100\degree$ around the newly defined z-axis and a $12\degree$ rotation around the new frame's y-axis.
+        		\item $30\degree, 10\degree, -50\degree$ in $YX'Y''$ means a $30\degree$ rotation around the y-axis, a rotation by $10\degree$ around the newly defined x-axis and a $-50\degree$ rotation around the new frame's y-axis.
+        	\end{enumerate}
+        \item[2)] If we rotate an object around one axis, the coordinate system changes in the other two axis, but not in the rotated one. Rotating again around the same axis is senseless, because we could have achieved that with the first rotation. So we have the following number of rotation sequences:
         $$n_{\text{sequences}} = 3 \cdot 2 \cdot 2 = 12$$
     \end{enumerate}
 
