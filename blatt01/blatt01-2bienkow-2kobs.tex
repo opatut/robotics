@@ -19,6 +19,7 @@
 \usepackage{tikz}
 \usepackage{fancyhdr}
 \usepackage{multicol}
+\usepackage{url}
 
 \usetikzlibrary{calc}
 \usetikzlibrary{patterns}
@@ -37,10 +38,41 @@
 \maketitle
 \begin {enumerate}
 \item[\textbf{Task 1.1.}]
-
+	\textbf{Note:} All the code for calculating the results can be found at \url{http://hiernocheinfügen.de}.\\
+	The given points are $A = (5, -5, 0), B = (5, 5, 0), C = (-5, 5, 0), D = (-5, -5, 0), E = (0, 0, 20)$
     \begin{enumerate}
-        \item[1)]
-        \item[2)]
+        \item[1)] In this case we use Euler-angles, so we need to left multiply the given transformation matrices. We get the following transformation matrix:
+		$$M \approx \begin{bmatrix}
+			0.78914913099243 & -0.61237243569579 & 0.65973960844117 & 0\\
+-0.78914913099243 & 0.61237243569579 & -0.65973960844117 & 0\\
+0.43301270189222 & 0.5 & 0.75 & 0\\
+0 & 0 & 0	 & 1
+		\end{bmatrix}$$
+		After multiplying it with the given points, we get
+		\begin{align*}
+			A' &\approx (7.0076078334411, -7.0076078334411, -0.3349364905389),\\
+			B' &\approx (0.88388347648318, -0.88388347648318, 4.6650635094611),\\
+			C' &\approx (-7.0076078334411, 7.0076078334411, 0.3349364905389),\\
+			D' &\approx (-0.88388347648318, 0.88388347648318, -4.6650635094611),\\
+			E' &\approx (19.792188253235, -19.792188253235, 22.5)
+		\end{align*}
+
+        
+        \item[2)] In this case we use Gimbal-angles, we need to right multiply the given transformation matrices. We get the following transformation matrix:
+		$$M' \approx \begin{bmatrix}
+			0.43559574039916 & -0.43559574039916 & 0.43301270189222 & 0\\
+-0.61237243569579 & 0.61237243569579 & -0.5 & 0\\
+0.047367172745376 & -0.047367172745376 & 0.75 & 0\\
+0 & 0 & 0 & 1
+		\end{bmatrix}$$
+		After multiplying it with the given points, we get
+		\begin{align*}
+			A'' &\approx (4.3559574039916, -6.1237243569579, 0.47367172745376),\\
+			B'' &\approx (4.4408920985006 \cdot 10^{-16}, 4.4408920985006  \cdot 10^{-16}, 5.5511151231258 \cdot 10^{-16}),\\
+			C'' &\approx (-4.3559574039916, 6.1237243569579, -0.47367172745376),\\
+			D'' &\approx (-4.4408920985006 \cdot 10^{-16}, -4.4408920985006 \cdot 10^{-16}, -5.5511151231258 \cdot 10^{-16}),\\
+			E'' &\approx (12.990381056767, -15, 22.5)
+		\end{align*}
     \end{enumerate}
 
 \item[\textbf{Task 1.2.}]
