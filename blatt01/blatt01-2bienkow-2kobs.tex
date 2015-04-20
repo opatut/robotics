@@ -17,6 +17,7 @@
 \usepackage{pgfplots}
 \usepackage{breqn}
 \usepackage{tikz}
+\usepackage{tikz-3dplot}
 \usepackage{fancyhdr}
 \usepackage{multicol}
 \usepackage{url}
@@ -130,9 +131,94 @@
 \item[\textbf{Task 1.2.}]
 
     \begin{enumerate}
-        \item[1)] To calculate the homogeneous transformation from A to C, or short $^{A}T_{C}$, we need to right multiply $^{A}T_{B}$ and $^{B}T_{C}$. Intuitively we transform all points in A to B and then to C. That's why we need to right multiply the matrices. So the transformation $^{A}T_{C}$ is unambiguously defined.
+        \item[1)]
+
+            To calculate the homogeneous transformation from A to C, or short $^{A}T_{C}$, we need to right multiply $^{A}T_{B}$ and $^{B}T_{C}$. Intuitively we transform all points in A to B and then to C. That's why we need to right multiply the matrices. So the transformation $^{A}T_{C}$ is unambiguously defined.
+
         \item[2)]
-    \end{enumerate}
+
+            Since both transformations contain only rotations around z-axis and
+            translations on the xy-plane, we can visualize using a perspective
+            that neglects the z-axis as follows:
+
+                \tdplotsetmaincoords{0}{0}
+                $$
+                \begin{tikzpicture}[tdplot_main_coords,scale=1]
+
+                    %draw a grid in the x-y plane
+                    \foreach \x in {-0,1,...,4}
+                    \foreach \y in {0,1,...,4}
+                    {
+                        \draw[very thin,gray] (\x,0,0) -- (\x,4,0);
+                        \draw[very thin,gray] (0,\y,0) -- (4,\y,0);
+                    }
+
+                    \draw[thin,dashed,color=gray] (0.0,0.0,0.0) -- (0.0,0.0,0);
+                    \draw[thick,->,color=black] (0.0,0.0,0.0) -- (2.0,0.0,0.0) node[anchor=south]{$x$};
+                    \draw[thick,->,color=black] (0.0,0.0,0.0) -- (0.0,2.0,0.0) node[anchor=south]{$y$};
+                    \draw[thick,->,color=black] (0.0,0.0,0.0) -- (0.0,0.0,2.0) node[anchor=south]{$z$};
+
+
+                    \draw[thin,dashed,color=gray] (2.0,1.0,0.0) -- (2.0,1.0,0);
+                    \draw[thick,->,color=red] (2.0,1.0,0.0) -- (2.8660254037844384,1.5,0.0) node[anchor=south]{$x$};
+                    \draw[thick,->,color=red] (2.0,1.0,0.0) -- (1.5,1.8660254037844386,0.0) node[anchor=south]{$y$};
+                    \draw[thick,->,color=red] (2.0,1.0,0.0) -- (2.0,1.0,1.0) node[anchor=south]{$z$};
+
+
+                    \draw[thin,dashed,color=gray] (1.0,1.0,0.0) -- (1.0,1.0,0);
+                    \draw[thick,->,color=green] (1.0,1.0,0.0) -- (1.7071067811865475,0.29289321881345254,0.0) node[anchor=south]{$x$};
+                    \draw[thick,->,color=green] (1.0,1.0,0.0) -- (1.7071067811865475,1.7071067811865475,0.0) node[anchor=south]{$y$};
+                    \draw[thick,->,color=green] (1.0,1.0,0.0) -- (1.0,1.0,1.0) node[anchor=south]{$z$};
+
+
+                    \draw[thin,dashed,color=gray] (2.3660254037844384,2.3660254037844384,0.0) -- (2.3660254037844384,2.3660254037844384,0);
+                    \draw[thick,->,color=blue] (2.3660254037844384,2.3660254037844384,0.0) -- (3.3319512300735066,2.1072063586819176,0.0) node[anchor=south]{$x$};
+                    \draw[thick,->,color=blue] (2.3660254037844384,2.3660254037844384,0.0) -- (2.624844448886959,3.3319512300735066,0.0) node[anchor=south]{$y$};
+                    \draw[thick,->,color=blue] (2.3660254037844384,2.3660254037844384,0.0) -- (2.3660254037844384,2.3660254037844384,1.0) node[anchor=south]{$z$};
+
+                \end{tikzpicture}
+                $$
+
+            Here is a 3D visualization with a grid on the xy-plane:
+
+                \tdplotsetmaincoords{60}{40}
+                $$\begin{tikzpicture}[tdplot_main_coords,scale=1]
+
+                    %draw a grid in the x-y plane
+                    \foreach \x in {-0,1,...,4}
+                    \foreach \y in {0,1,...,4}
+                    {
+                        \draw[very thin,gray] (\x,0,0) -- (\x,4,0);
+                        \draw[very thin,gray] (0,\y,0) -- (4,\y,0);
+                    }
+
+                    \draw[thin,dashed,color=gray] (0.0,0.0,0.0) -- (0.0,0.0,0);
+                    \draw[thick,->,color=black] (0.0,0.0,0.0) -- (2.0,0.0,0.0) node[anchor=south]{$x$};
+                    \draw[thick,->,color=black] (0.0,0.0,0.0) -- (0.0,2.0,0.0) node[anchor=south]{$y$};
+                    \draw[thick,->,color=black] (0.0,0.0,0.0) -- (0.0,0.0,2.0) node[anchor=south]{$z$};
+
+
+                    \draw[thin,dashed,color=gray] (2.0,1.0,0.0) -- (2.0,1.0,0);
+                    \draw[thick,->,color=red] (2.0,1.0,0.0) -- (2.8660254037844384,1.5,0.0) node[anchor=south]{$x$};
+                    \draw[thick,->,color=red] (2.0,1.0,0.0) -- (1.5,1.8660254037844386,0.0) node[anchor=south]{$y$};
+                    \draw[thick,->,color=red] (2.0,1.0,0.0) -- (2.0,1.0,1.0) node[anchor=south]{$z$};
+
+
+                    \draw[thin,dashed,color=gray] (1.0,1.0,0.0) -- (1.0,1.0,0);
+                    \draw[thick,->,color=green] (1.0,1.0,0.0) -- (1.7071067811865475,0.29289321881345254,0.0) node[anchor=south]{$x$};
+                    \draw[thick,->,color=green] (1.0,1.0,0.0) -- (1.7071067811865475,1.7071067811865475,0.0) node[anchor=south]{$y$};
+                    \draw[thick,->,color=green] (1.0,1.0,0.0) -- (1.0,1.0,1.0) node[anchor=south]{$z$};
+
+
+                    \draw[thin,dashed,color=gray] (2.3660254037844384,2.3660254037844384,0.0) -- (2.3660254037844384,2.3660254037844384,0);
+                    \draw[thick,->,color=blue] (2.3660254037844384,2.3660254037844384,0.0) -- (3.3319512300735066,2.1072063586819176,0.0) node[anchor=south]{$x$};
+                    \draw[thick,->,color=blue] (2.3660254037844384,2.3660254037844384,0.0) -- (2.624844448886959,3.3319512300735066,0.0) node[anchor=south]{$y$};
+                    \draw[thick,->,color=blue] (2.3660254037844384,2.3660254037844384,0.0) -- (2.3660254037844384,2.3660254037844384,1.0) node[anchor=south]{$z$};
+
+                \end{tikzpicture}
+                $$
+
+        \end{enumerate}
 
 \item[\textbf{Task 1.3.}]
 
