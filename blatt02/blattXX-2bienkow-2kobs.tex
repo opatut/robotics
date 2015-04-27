@@ -1,0 +1,111 @@
+\documentclass[a4paper,11pt]{article}
+
+\newcommand{\authorinfo}{Paul Bienkowski, Konstantin Kobs}
+\newcommand{\titleinfo}{Robotics Assignment \#02}
+
+% PREAMBLE ===============================================================
+
+\usepackage[german,ngerman]{babel}
+\usepackage[utf8]{inputenc}
+\usepackage[T1]{fontenc}
+\usepackage[top=1.3in, bottom=1in, left=1.0in, right=0.6in]{geometry}
+\usepackage{lmodern}
+\usepackage{amssymb}
+\usepackage{mathtools}
+\usepackage{amsmath}
+\usepackage{enumerate}
+\usepackage{pgfplots}
+\usepackage{breqn}
+\usepackage{tikz}
+\usepackage{fancyhdr}
+\usepackage{multicol}
+\usepackage{gensymb}
+\allowdisplaybreaks
+
+\usetikzlibrary{calc}
+\usetikzlibrary{patterns}
+
+\author{\authorinfo}
+\title{\titleinfo}
+\date{\today}
+
+\pagestyle{fancy}
+\fancyhf{}
+\fancyhead[L]{\authorinfo}
+\fancyhead[R]{\titleinfo}
+\fancyfoot[C]{\thepage}
+
+\begin{document}
+\maketitle
+\begin {enumerate}
+\item[\textbf{Task 2.1.}]
+
+    \begin{enumerate}
+        \item[1)] The manipulator transformation is a series of multiple rotational $Rot_z(\theta_i)$ and translational $Trans_{x_i}(a_i)$ transformations. That means, $^0T_3 = {^0A_1} {^1A_2} {^2A_3}$ is given by
+        	\begin{align*}
+        		^0A_1 &= Rot_z(\theta_1) \cdot Trans_{x_1}(a_1)\\
+        		^1A_2 &= Rot_z(\theta_2) \cdot Trans_{x_2}(a_2)\\
+        		^2A_3 &= Rot_z(\theta_3) \cdot Trans_{x_3}(a_3)
+        	\end{align*}
+        	where $Rot_z(\theta_i) = \begin{bmatrix}
+        		C_i & -S_i & 0 & 0\\
+        		S_i & C_i & 0 & 0\\
+        		0 & 0 & 1 & 0\\
+        		0 & 0 & 0 & 1
+        	\end{bmatrix}$
+        	and
+        	$Trans_{x_i}(a_i) = \begin{bmatrix}
+        		1 & 0 & 0 & a_i\\
+        		0 & 1 & 0 & 0\\
+        		0 & 0 & 1 & 0\\
+        		0 & 0 & 0 & 1
+        	\end{bmatrix}$.
+        	
+        	With this in mind, we can calculate the partial homogeneous transformations:
+	        	$${^0A_1} = \begin{bmatrix} C_1 & -S_1 & 0 & C_1a_1\\ S_1 & C_1 & 0 & S_1a_1\\ 0 & 0 & 1 & 0\\ 0 & 0 & 0 & 1 \end{bmatrix} \quad
+	        	{^1A_2} = \begin{bmatrix} C_2 & -S_2 & 0 & C_2a_2\\ S_2 & C_2 & 0 & S_2a_2\\ 0 & 0 & 1 & 0\\ 0 & 0 & 0 & 1 \end{bmatrix}\quad
+	        	{^2A_3} = \begin{bmatrix} C_3 & -S_3 & 0 & C_3a_3\\ S_3 & C_3 & 0 & S_3a_3\\ 0 & 0 & 1 & 0\\ 0 & 0 & 0 & 1 \end{bmatrix}$$
+   
+    For intermediate results, we first calculate $^0T_2 = {^0A_1}{^1A_2}$ and then $^0T_3 = {^0T_2}{^2A_3}$.
+    \begin{align*}
+    	^0T_2 &= \begin{bmatrix} C_1 & -S_1 & 0 & C_1a_1\\ S_1 & C_1 & 0 & S_1a_1\\ 0 & 0 & 1 & 0\\ 0 & 0 & 0 & 1 \end{bmatrix} \begin{bmatrix} C_2 & -S_2 & 0 & C_2a_2\\ S_2 & C_2 & 0 & S_2a_2\\ 0 & 0 & 1 & 0\\ 0 & 0 & 0 & 1 \end{bmatrix}\\
+    	&= \begin{bmatrix} C_1C_2 - S_1S_2 & -C_1S_2 - S_1C_2 & 0 & C_1C_2a_2 -S_1S_2a_2 + C_1a_1\\ S_1C_2 + C_1S_2 & -S_1S_2 + C_1C_2 & 0 & S_1C_2a_2 + C_1S_2a_2 + S_1a_1\\ 0 & 0 & 1 & 0\\ 0 & 0 & 0 & 1 \end{bmatrix}\\
+    	&= \begin{bmatrix} C_{1+2} & -S_{1+2} & 0 & C_{1+2}a_2 + C_1a_1\\ S_{1+2} & C_{1+2} & 0 & S_{1+2}a_2 + S_1a_1\\ 0 & 0 & 1 & 0\\ 0 & 0 & 0 & 1 \end{bmatrix}\\
+    	^0T_3 &= \begin{bmatrix} C_{1+2} & -S_{1+2} & 0 & C_{1+2}a_2 + C_1a_1\\ S_{1+2} & C_{1+2} & 0 & S_{1+2}a_2 + S_1a_1\\ 0 & 0 & 1 & 0\\ 0 & 0 & 0 & 1 \end{bmatrix} \begin{bmatrix} C_3 & -S_3 & 0 & C_3a_3\\ S_3 & C_3 & 0 & S_3a_3\\ 0 & 0 & 1 & 0\\ 0 & 0 & 0 & 1 \end{bmatrix}\\
+    	&= \begin{bmatrix} C_{1+2}C_3 - S_{1+2}S_3 & -C_{1+2}S_3 - S_{1+2}C_3 & 0 & C_{1+2}C_3a_3 - S_{1+2}S_3a_3 + C_{1+2}a_2+C_1a_1\\ S_{1+2}C_3 + C_{1+2}S_3 & -S_{1+2}S_3+C_{1+2}C_3 & 0 & S_{1+2}C_3a_3 + C_{1+2}S_3a_3 + S_{1+2}a_2 + S_1a_1\\ 0 & 0 & 1 & 0\\ 0 & 0 & 0 & 1 \end{bmatrix}\\
+    	&= \begin{bmatrix} C_{1+2+3} & -S_{1+2+3} & 0 & C_{1+2+3}a_3 + C_{1+2}a_2+C_1a_1\\ S_{1+2+3} & C_{1+2+3} & 0 & S_{1+2+3}a_3 + S_{1+2}a_2 + S_1a_1\\ 0 & 0 & 1 & 0\\ 0 & 0 & 0 & 1 \end{bmatrix}
+    \end{align*}
+	
+	Because the relation $\theta_1 + \theta_2 + \theta_3 = 180\degree$ is given, we can simplify the results. For $\cos(180\degree) = -1$ and $\sin(180\degree) = 0$:
+		$${^0T_3} = \begin{bmatrix}
+			-1 & 0 & 0 & -a_3 + C_{1+2}a_2+C_1a_1\\
+			0 & -1 & 0 & S_{1+2}a_2 + S_1a_1\\
+			0 & 0 & 1 & 0\\
+			0 & 0 & 0 & 1
+		\end{bmatrix}$$
+	Furthermore, $\cos(\alpha) = -\cos(180\degree - \alpha)$ and $\sin(\alpha) = \sin(180\degree - \alpha)$ for $\alpha \in [0\degree, 180\degree]$. These facts result in the given transformation matrix:
+		$${^0T_3} = \begin{bmatrix}
+			-1 & 0 & 0 & C_1a_1 - C_{3}a_2 - a_3\\
+			0 & -1 & 0 & S_1a_1 + S_{3}a_2\\
+			0 & 0 & 1 & 0\\
+			0 & 0 & 0 & 1
+		\end{bmatrix}$$
+        \item[2)]
+    \end{enumerate}
+
+\item[\textbf{Task 2.2.}]
+
+    \begin{enumerate}
+        \item[1)]
+        \item[2)]
+    \end{enumerate}
+
+\item[\textbf{Task 2.3.}]
+
+    \begin{enumerate}
+        \item[1)]
+        \item[2)]
+    \end{enumerate}
+
+\end {enumerate}
+\end{document}
