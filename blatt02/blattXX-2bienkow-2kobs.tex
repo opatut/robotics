@@ -90,7 +90,50 @@
 			0 & 0 & 1 & 0\\
 			0 & 0 & 0 & 1
 		\end{bmatrix}$$
-        \item[2)]
+        \item[2)] To rotate around $x_0$, we need to use Euler angles and append the rotation transformation matrix to the left side of ${^0T_3}$, because we need to rotate the manipulator before the other transformation can be started.
+        \begin{align*}
+        	{^0T_3}' &= Rot_{x_0}(\theta_0) \cdot {^0T_3}\\
+        	&= \begin{bmatrix}
+			1 & 0 & 0 & 0\\
+			0 & C_0 & -S_0 & 0\\
+			0 & S_0 & C_0 & 0\\
+			0 & 0 & 0 & 1
+		\end{bmatrix} \begin{bmatrix}
+			-1 & 0 & 0 & C_1a_1 - C_{3}a_2 - a_3\\
+			0 & -1 & 0 & S_1a_1 + S_{3}a_2\\
+			0 & 0 & 1 & 0\\
+			0 & 0 & 0 & 1
+		\end{bmatrix}\\
+			&= \begin{bmatrix}
+			-1 & 0 & 0 & C_1a_1 - C_{3}a_2 - a_3\\
+			0 & -C_0 & -S_0 & C_0S_1a_1 + C_0S_{3}a_2\\
+			0 & -S_0 & C_0 & S_0S_1a_1 + S_0S_3a_2\\
+			0 & 0 & 0 & 1
+		\end{bmatrix}
+        \end{align*}
+        
+        For the second rotation around $x_3$ by $\theta_4$, we append the rotation matrix to the right side of ${^0T_3}$.
+        \begin{align*}
+        	{^0T_3}'' &= {^0T_3} \cdot Rot_{x_3}(\theta_4)\\
+        	&= \begin{bmatrix}
+			-1 & 0 & 0 & C_1a_1 - C_{3}a_2 - a_3\\
+			0 & -1 & 0 & S_1a_1 + S_{3}a_2\\
+			0 & 0 & 1 & 0\\
+			0 & 0 & 0 & 1
+		\end{bmatrix} \begin{bmatrix}
+			1 & 0 & 0 & 0\\
+			0 & C_4 & -S_4 & 0\\
+			0 & S_4 & C_4 & 0\\
+			0 & 0 & 0 & 1
+		\end{bmatrix}\\
+			&= \begin{bmatrix}
+			-1 & 0 & 0 & C_1a_1 - C_{3}a_2 - a_3\\
+			0 & -C_4 & S_4 & S_1a_1+S_3a_2\\
+			0 & S_4 & C_4 & 0\\
+			0 & 0 & 0 & 1
+		\end{bmatrix}
+        \end{align*}
+        
     \end{enumerate}
 
 \item[\textbf{Task 2.2.}]
