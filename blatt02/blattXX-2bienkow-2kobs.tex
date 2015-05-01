@@ -153,15 +153,191 @@
 	\hline 
 	2 & $\theta_2$ & $0\degree$ & $L_2$ & 0 \\ 
 	\hline 
-	3 & $\theta_3$ & $0\degree$ & $L_3$ & 0 \\ 
+	3 & $\theta_3$ & $0\degree$ & $L_3$ & 0 \\
 	\hline 
 	\end{tabular} 
     
 \item[\textbf{Task 2.4.}]
 
     \begin{enumerate}
-        \item[1)]
-        \item[2)]
+        \item[1)] The manipulator shown in the figure follows the Denavit-Hartenberg-convention. Every z-axis is given by the axis of rotation of its joint. Every x-axis shows in the directions of the common normal of both z-axes, or better in the direction of the shortest connection between both z-axes, since there are no common normals for parallel z-axes. Every y-axis and every rotation direction is then given by the fact, that we want to have a right handed coordinate system.
+        \item[2)] The homogeneous transformation $^{Base}T_{Tool}$ is given by concatenation of the partial transformations from one frame to the next:
+        $${^{Base}T_{Tool}} = {^0T_1}{^1T_2}{^2T_3}{^3T_4}$$
+        We determine the partial transformation matrices as follows and convert milimeters to meters to avoid big numbers:
+        \begin{align*}
+        	{^0T_1} &= Trans_{(0,0,877mm)} \cdot Rot_{z_0}(\theta_1) \cdot Trans_{(425mm,0,0)} \cdot Rot_{x_0}(\pi)\\
+        	&= \begin{pmatrix}
+        		1 & 0 & 0 & 0\\
+        		0 & 1 & 0 & 0\\
+        		0 & 0 & 1 & 0.877\\
+        		0 & 0 & 0 & 1\\
+        	\end{pmatrix}        	
+        	\begin{pmatrix}
+        		\cos(\theta_1) & -\sin(\theta_1) & 0 & 0\\
+        		\sin(\theta_1) & \cos(\theta_1) & 0 & 0\\
+        		0 & 0 & 1 & 0\\
+        		0 & 0 & 0 & 1\\
+        	\end{pmatrix}\\
+        	&\qquad\qquad \begin{pmatrix}
+        		1 & 0 & 0 & 0.425\\
+        		0 & 1 & 0 & 0\\
+        		0 & 0 & 1 & 0\\
+        		0 & 0 & 0 & 1\\
+        	\end{pmatrix}
+        	\begin{pmatrix}
+        	    1 & 0 & 0 & 0\\
+        		0 & \cos(\pi) & -\sin(\pi) & 0\\
+        		0 & \sin(\pi) & \cos(\pi) & 0\\
+        		0 & 0 & 0 & 1\\
+        	\end{pmatrix}\\
+        	&= \begin{pmatrix}
+        		\cos(\theta_1) & -\sin(\theta_1) & 0 & 0\\
+        		\sin(\theta_1) & \cos(\theta_1) & 0 & 0\\
+        		0 & 0 & 1 & 0.877\\
+        		0 & 0 & 0 & 1\\
+        	\end{pmatrix}
+        	\begin{pmatrix}
+        		1 & 0 & 0 & 0.425\\
+        		0 & 1 & 0 & 0\\
+        		0 & 0 & 1 & 0\\
+        		0 & 0 & 0 & 1\\
+        	\end{pmatrix}\\
+        	&\qquad\qquad \begin{pmatrix}
+        	    1 & 0 & 0 & 0\\
+        		0 & -1 & 0 & 0\\
+        		0 & 0 & -1 & 0\\
+        		0 & 0 & 0 & 1\\
+        	\end{pmatrix}\\
+        	&= \begin{pmatrix}
+        		\cos(\theta_1) & -\sin(\theta_1) & 0 & 0.425 \cdot \cos(\theta_1)\\
+        		\sin(\theta_1) & \cos(\theta_1) & 0 & 0.425 \cdot \sin(\theta_1)\\
+        		0 & 0 & 1 & 0.877\\
+        		0 & 0 & 0 & 1\\
+        	\end{pmatrix}
+        	\begin{pmatrix}
+        	    1 & 0 & 0 & 0\\
+        		0 & -1 & 0 & 0\\
+        		0 & 0 & -1 & 0\\
+        		0 & 0 & 0 & 1\\
+        	\end{pmatrix}\\
+        	&= \begin{pmatrix}
+        		\cos(\theta_1) & \sin(\theta_1) & 0 & 0.425 \cdot \cos(\theta_1)\\
+        		\sin(\theta_1) & -\cos(\theta_1) & 0 & 0.425 \cdot \sin(\theta_1)\\
+        		0 & 0 & -1 & 0.877\\
+        		0 & 0 & 0 & 1\\
+        	\end{pmatrix}\\
+% End of Calculation 1
+        	{^1T_2} &= Rot_{z_1}(\theta_2) \cdot Trans_{(375mm,0,0)}\\
+        	&= \begin{pmatrix}
+        		\cos(\theta_2) & -\sin(\theta_2) & 0 & 0\\
+        		\sin(\theta_2) & \cos(\theta_2) & 0 & 0\\
+        		0 & 0 & 1 & 0\\
+        		0 & 0 & 0 & 1\\
+        	\end{pmatrix}
+        	\begin{pmatrix}
+        		1 & 0 & 0 & 0.375\\
+        		0 & 1 & 0 & 0\\
+        		0 & 0 & 1 & 0\\
+        		0 & 0 & 0 & 1\\
+        	\end{pmatrix}\\
+        	&= \begin{pmatrix}
+        		\cos(\theta_2) & -\sin(\theta_2) & 0 & 0.375 \cdot \cos(\theta_2)\\
+        		\sin(\theta_2) & \cos(\theta_2) & 0 & 0.375 \cdot \sin(\theta_2)\\
+        		0 & 0 & 1 & 0\\
+        		0 & 0 & 0 & 1\\
+        	\end{pmatrix}\\
+% End of Calculation 2
+        	{^2T_3} &= Trans_{(0,0,d_3)}\\
+        	&= \begin{pmatrix}
+        		1 & 0 & 0 & 0\\
+        		0 & 1 & 0 & 0\\
+        		0 & 0 & 1 & d_3\\
+        		0 & 0 & 0 & 1\\
+        	\end{pmatrix}\\
+% End of Calculation 3
+        	{^3T_4} &= Trans_{(0,0,200mm)} \cdot Rot_{z_3}(\pi/2 + \theta_4)\\
+        	&= \begin{pmatrix}
+        		1 & 0 & 0 & 0\\
+        		0 & 1 & 0 & 0\\
+        		0 & 0 & 1 & 0.2\\
+        		0 & 0 & 0 & 1\\
+        	\end{pmatrix}
+        	\begin{pmatrix}
+        		\cos(\pi/2 + \theta_4) & -\sin(\pi/2 + \theta_4) & 0 & 0\\
+        		\sin(\pi/2 + \theta_4) & \cos(\pi/2 + \theta_4) & 0 & 0\\
+        		0 & 0 & 1 & 0\\
+        		0 & 0 & 0 & 1\\
+        	\end{pmatrix}\\
+        	&= \begin{pmatrix}
+        		\cos(\pi/2 + \theta_4) & -\sin(\pi/2 + \theta_4) & 0 & 0\\
+        		\sin(\pi/2 + \theta_4) & \cos(\pi/2 + \theta_4) & 0 & 0\\
+        		0 & 0 & 1 & 0.2\\
+        		0 & 0 & 0 & 1\\
+        	\end{pmatrix}\\
+        \end{align*}
+        Now we can compute the final transformation matrix:
+        \begin{align*}
+        	{^{Base}T_{Tool}} &= {^0T_1}{^1T_2}{^2T_3}{^3T_4}\\
+        	&= \begin{pmatrix}
+        		C_1C_2 + S_1S_2 & -S_2C_1 + S_1C_2 & 0 & 0.375C_1C_2 + 0.375S_1S_2 + 0.425C_1\\
+        		S_1C_2-C_1S_2 & -S_1S_2-C_1C_2 & 0 & 0.375S_1C_2-0.375C_1S_2+0.425S_1\\
+        		0 & 0 & -1 & 0.877\\
+        		0 & 0 & 0 & 1\\
+        	\end{pmatrix} {^2T_3}{^3T_4}\\
+        	&= \begin{pmatrix}
+        		C_1C_2 + S_1S_2 & -S_2C_1 + S_1C_2 & 0 & 0.375C_1C_2 + 0.375S_1S_2 + 0.425C_1\\
+        		S_1C_2-C_1S_2 & -S_1S_2-C_1C_2 & 0 & 0.375S_1C_2-0.375C_1S_2+0.425S_1\\
+        		0 & 0 & -1 & -d_3 + 0.877\\
+        		0 & 0 & 0 & 1\\
+        	\end{pmatrix} {^3T_4}\\
+        	&= \begin{pmatrix}
+        		n_x & o_x & a_x & p_x\\
+        		n_y & o_y & a_y & p_y\\
+        		n_z & o_z & a_z & p_z\\
+        		0 & 0 & 0 & 1\\
+        	\end{pmatrix}\\
+        	\text{with:}&\\
+        	n_x &= (C_1C_2 + S_1S_2)\cos(\pi/2 + \theta_4) + (-S_2C_1 + S_1C_2)\sin(\pi/2 + \theta_4)\\
+			n_y &= (S_1C_2-C_1S_2)\cos(\pi/2 + \theta_4) + (-S_1S_2 - C_1C_2)\sin(\pi/2 + \theta_4)\\
+			n_z &= 0\\
+			o_x &= -(C_1C_2 + S_1S_2)\sin(\pi/2 + \theta_4) + (-S_2C_1 + S_1C_2)\cos(\pi/2 + \theta_4) = n_y\\
+			o_y &= -(S_1C_2-C_1S_2)\sin(\pi/2 + \theta_4) + (-S_1S_2 - C_1C_2)\cos(\pi/2 + \theta_4) = -n_x\\
+			o_z &= 0\\
+			a_x &= 0\\
+			a_y &= 0\\
+			a_z &= -1\\
+			p_x &= 0.375C_1C_2 + 0.375S_1S_2 + 0.425C_1\\
+			p_y &= 0.375S_1C_2-0.375C_1S_2+0.425S_1\\
+			p_z &= -0.2 - d_3 + 0.877\\
+        \end{align*}
+        where $C_i = \cos(\theta_i)$ and $S_i = \sin(\theta_i)$.
+        
+        \item[3)] Before we can calculate the result, we need to insert the variables into ${^{Base}T_{Tool}}$. \textbf{Note:} Since we work with \textit{meters} and not with \textit{mm} we need to convert $120$ to $0.12$. Overall, this leads to:
+        $${^{Base}T_{Tool}} \approx \begin{pmatrix}
+        	-0.7071 & -0.9659 & 0 & 0.2035\\
+        	-0.9659 & 0.7071 & 0 & 0.6627\\
+        	0 & 0 & -1 & 0.557\\
+        	0 & 0 & 0 & 1 \\
+        \end{pmatrix}$$
+        Assuming the origin of the base frame is the origin of the world coordinate system (at $(0,0,0)$), we can calculate the coordinates of the tool center point as follows:
+        \begin{align*}
+        	{^{Base}T_{Tool}} \cdot \begin{pmatrix}
+        		0\\0\\0\\1
+        	\end{pmatrix} &\approx \begin{pmatrix}
+        	-0.7071 & -0.9659 & 0 & 0.2035\\
+        	-0.9659 & 0.7071 & 0 & 0.6627\\
+        	0 & 0 & -1 & 0.557\\
+        	0 & 0 & 0 & 1 \\
+        \end{pmatrix} \cdot \begin{pmatrix}
+        		0\\0\\0\\1
+        	\end{pmatrix}\\
+        &\approx \begin{pmatrix}
+        		0.2035\\0.6627\\0.557\\1
+        	\end{pmatrix}
+        \end{align*}
+        The tool center point is at the point $(203.5, 662.7, 557)$ of the base coordinate system.
+        
+        
     \end{enumerate}
 
 \end {enumerate}
