@@ -5,7 +5,7 @@
 
 % PREAMBLE ===============================================================
 
-\usepackage[german,ngerman]{babel}
+%\usepackage[german,ngerman]{babel}
 \usepackage[utf8]{inputenc}
 \usepackage[T1]{fontenc}
 \usepackage[top=1.3in, bottom=1in, left=1.0in, right=0.6in]{geometry}
@@ -138,24 +138,29 @@
 
 \item[\textbf{Task 2.2.}]
 
-    \begin{enumerate}
-        \item[1)]
-        \item[2)]
-    \end{enumerate}
 
-\item[\textbf{Task 2.3.}]
-
+\item[\textbf{Task 2.3.}] The coordinate frames are specified via the figure \ref{fig:2.3}. In this drawing, every z-axis points towards the viewer, in order to complete a right-handes coordinate system.
+	
+	\begin{figure}[!ht]
+	\center
+		\raisebox{-0.5\height}{\includegraphics[height=9cm]{2-3.png}}
+	\qquad
 	\begin{tabular}{|c|c|c|c|c|}
-	\hline 
-	Link i & $\theta_i$ & $\alpha_{i-1}$ & $a_{i-1}$ & $d_i$ \\ 
-	\hline 
-	1 & $\theta_1$ & $0\degree$ & $L_1$ & 0 \\ 
-	\hline 
-	2 & $\theta_2$ & $0\degree$ & $L_2$ & 0 \\ 
-	\hline 
-	3 & $\theta_3$ & $0\degree$ & $L_3$ & 0 \\
-	\hline 
-	\end{tabular} 
+		\hline 
+		Link i & $\theta_i$ & $\alpha_{i-1}$ & $a_{i-1}$ & $d_i$ \\ 
+		\hline 
+		1 & $\theta_1$ & $0\degree$ & $L_1$ & 0 \\ 
+		\hline 
+		2 & $\theta_2$ & $0\degree$ & $L_2$ & 0 \\ 
+		\hline 
+		3 & $\theta_3$ & $0\degree$ & $L_3$ & 0 \\
+		\hline 
+	\end{tabular}
+	\caption{The specified coordinate frames and the DH parameters of 2.3}
+	\label{fig:2.3}
+	\end{figure}
+
+	
     
 \item[\textbf{Task 2.4.}]
 
