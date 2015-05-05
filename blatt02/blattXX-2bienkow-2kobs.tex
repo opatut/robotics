@@ -136,13 +136,15 @@
 
     \end{enumerate}
 
+\newpage
 \item[\textbf{Task 2.2.}]
 
-    As by convention, we color code the axes in figure \ref{fig:2.2}: x (red), y (green), z (blue).
+    As by convention, we color code the axes in the figure as follows: x (red),
+    y (green), z (blue). We show the specified coordinate frames and the DH
+    parameters with * marking the variable of the joint.
 
-    \begin{figure}[!ht]
-        \center
-            \raisebox{-0.5\height}{\includegraphics[height=4cm]{2-2.png}}
+    \begin{center}
+        \raisebox{-0.5\height}{\includegraphics[height=4cm]{2-2.png}}
         \qquad
         \begin{tabular}{|c|c|c|c|c|}
             \hline
@@ -153,18 +155,19 @@
             4 & $d_5$ & * & 0 & $-\frac{\pi}{2}$ \\ \hline
             5 & 0 & * & 0 & $\frac{\pi}{2}$ \\ \hline
             6 & $d_T$ & * & 0 & $0$ \\ \hline
-        \end{tabular}
-        \caption{The specified coordinate frames and the DH parameters of 2.2 with * marking the variable}
-        \label{fig:2.2}
-    \end{figure}
+        \end{tabular}\\[2cm]
+    \end{center}
 
 
+\item[\textbf{Task 2.3.}]
 
-\item[\textbf{Task 2.3.}] The coordinate frames are specified via the figure \ref{fig:2.3}. In this drawing, every z-axis points towards the viewer, in order to complete a right-handes coordinate system.
+    The coordinate frames are specified via the figure \ref{fig:2.3}. In this
+    drawing, every z-axis points towards the viewer, in order to complete a
+    right-handes coordinate system. We show the specified coordinate frames and
+    the DH parameters:
 
-    \begin{figure}[!ht]
-        \center
-            \raisebox{-0.5\height}{\includegraphics[height=9cm]{2-3.png}}
+    \begin{center}
+        \raisebox{-0.5\height}{\includegraphics[height=9cm]{2-3.png}}
         \qquad
         \begin{tabular}{|c|c|c|c|c|}
             \hline
@@ -176,10 +179,8 @@
             \hline
             3 & $\theta_3$ & $0\degree$ & $L_3$ & 0 \\
             \hline
-        \end{tabular}
-        \caption{The specified coordinate frames and the DH parameters of 2.3}
-        \label{fig:2.3}
-    \end{figure}
+        \end{tabular}\\[2cm]
+    \end{center}
 
 
 
@@ -338,7 +339,10 @@
         \end{align*}
         where $C_i = \cos(\theta_i)$ and $S_i = \sin(\theta_i)$.
 
-        \item[3)] Before we can calculate the result, we need to insert the variables into ${^{Base}T_{Tool}}$. \textbf{Note:} Since we work with \textit{meters} and not with \textit{mm} we need to convert $120$ to $0.12$. Overall, this leads to:
+\newpage
+        \item[3)] Before we can calculate the result, we need to insert the variables into ${^{Base}T_{Tool}}$.
+
+        \textbf{Note:} Since we work with \textit{meters} and not with \textit{mm} we need to convert $120$ to $0.12$. Overall, this leads to:
         $${^{Base}T_{Tool}} \approx \begin{pmatrix}
             -0.7071 & -0.9659 & 0 & 0.2035\\
             -0.9659 & 0.7071 & 0 & 0.6627\\
