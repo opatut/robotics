@@ -1,0 +1,110 @@
+\documentclass[a4paper,11pt]{article}
+
+\newcommand{\authorinfo}{Paul Bienkowski, Konstantin Kobs}
+\newcommand{\titleinfo}{Robotics Assignment \#03}
+
+% PREAMBLE ===============================================================
+
+\usepackage[german,ngerman]{babel}
+\usepackage[utf8]{inputenc}
+\usepackage[T1]{fontenc}
+\usepackage[top=1.3in, bottom=1in, left=1.0in, right=0.6in]{geometry}
+\usepackage{lmodern}
+\usepackage{amssymb}
+\usepackage{mathtools}
+\usepackage{amsmath}
+\usepackage{enumerate}
+\usepackage{pgfplots}
+\usepackage{breqn}
+\usepackage{tikz}
+\usepackage{fancyhdr}
+\usepackage{multicol}
+
+\usetikzlibrary{calc}
+\usetikzlibrary{patterns}
+
+\author{\authorinfo}
+\title{\titleinfo}
+\date{\today}
+
+\pagestyle{fancy}
+\fancyhf{}
+\fancyhead[L]{\authorinfo}
+\fancyhead[R]{\titleinfo}
+\fancyfoot[C]{\thepage}
+
+\begin{document}
+\maketitle
+\begin {enumerate}
+\item[\textbf{Task 3.1.}]
+
+    \begin{enumerate}
+        \item[1)]
+        \item[2)]
+    \end{enumerate}
+
+\item[\textbf{Task 3.2.}]
+
+    \begin{enumerate}
+        \item[1)] The coordinate frames of the manipulator are chosen with respect to the modified Denavit-Hartenberg-convention.
+        \begin{table}[h]
+          \begin{tabular}{l|llll}
+            \hline
+            Link i & $\alpha_{i-1}$ & $a_{i-1}$ & $d_i$ & $\theta_i$\\
+            \hline
+            1 & 0 & 0 & 0 & 0\\
+            2 & 0 & 0 & 0 & 0\\
+            3 & 0 & 0 & 0 & 0\\
+            \hline
+          \end{tabular}
+        \end{table}
+
+
+        \item[2)]
+    \end{enumerate}
+
+\item[\textbf{Task 3.3.}]
+
+    \begin{enumerate}
+        \item[1)] To calculate ${^{base}T_{object}}$, we need to invert the transformation ${^{camera}T_{base}}$. Then we can determine the desired transformation by computing
+        \begin{align*}
+          {^{base}T_{object}} &= {^{camera}T_{base}}^{-1} \cdot {^{camera}T_{object}}\\
+          &= {^{base}T_{camera}} \cdot {^{camera}T_{object}}
+        \end{align*}
+        The inverse of ${^{camera}T_{base}}$ is
+        $$\begin{pmatrix}
+          0 & -1 & 0 & 25\\
+          -1 & 0 & 0 & 15\\
+          0 & 0 & -1 & 20\\
+          0 & 0 & 0 & 1
+        \end{pmatrix}$$
+        so we can compute the resulting matrix now
+        \begin{align*}
+          {^{base}T_{object}} &= {^{camera}T_{base}}^{-1} \cdot {^{camera}T_{object}}\\
+          &= \begin{pmatrix}
+            0 & -1 & 0 & 25\\
+            -1 & 0 & 0 & 15\\
+            0 & 0 & -1 & 20\\
+            0 & 0 & 0 & 1
+          \end{pmatrix} \cdot
+          \begin{pmatrix}
+            0 & -1 & 0 & 0\\
+            -1 & 0 & 0 & -5\\
+            0 & 0 & -1 & 19\\
+            0 & 0 & 0 & 1
+          \end{pmatrix}\\
+          &= \begin{pmatrix}
+            1 & 0 & 0 & 30\\
+            0 & 1 & 0 & 15\\
+            0 & 0 & 1 & 1\\
+            0 & 0 & 0 & 1
+          \end{pmatrix}
+        \end{align*}
+        We can see, that the resulting homogeneous transformation is only a translation. This makes sense, because both the coordinate frame axes of the base and the part are parallel to each other.
+
+
+        \item[2)]
+    \end{enumerate}
+
+\end {enumerate}
+\end{document}
