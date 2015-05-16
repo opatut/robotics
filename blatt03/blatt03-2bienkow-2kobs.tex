@@ -19,6 +19,7 @@
 \usepackage{tikz}
 \usepackage{fancyhdr}
 \usepackage{multicol}
+\usepackage{gensymb}
 
 \usetikzlibrary{calc}
 \usetikzlibrary{patterns}
@@ -104,6 +105,41 @@
 
 
         \item[2)]
+        We assume, that the front surface of the object is the surface in the figure, that we can see in front. Further we assume, that the robot will grasp the object by rotating its tool tip by $-90\degree$ around the $z^t$-axis. Then, when grasping the object, $x^t$ and $x^p$ are aligned. To align the other axes, we need to have a transformation by $180\degree$ around the $x^p$-axis. We already now the transformation ${^{base}T_{object}}$, and we can determine ${^{object}T_{tool}}$ with the given rotation. Then we can compute the resulting transformation
+        \begin{align*}
+          {^{base}T_{tool}} &= {^{base}T_{object}} \cdot {^{object}T_{tool}}\\
+          &= \begin{pmatrix}
+            1 & 0 & 0 & 30\\
+            0 & 1 & 0 & 15\\
+            0 & 0 & 1 & 1\\
+            0 & 0 & 0 & 1
+          \end{pmatrix} \cdot \begin{pmatrix}
+            1 & 0 & 0 & 0\\
+            0 & \cos(180\degree) & -\sin(180\degree) & 0\\
+            0 & \sin(180\degree) & \cos(180\degree) & 0\\
+            0 & 0 & 0 & 1
+          \end{pmatrix}\\
+          &= \begin{pmatrix}
+            1 & 0 & 0 & 30\\
+            0 & \cos(180\degree) & -\sin(180\degree) & 15\\
+            0 & \sin(180\degree) & \cos(180\degree) & 1\\
+            0 & 0 & 0 & 1
+          \end{pmatrix}\\
+          &= \begin{pmatrix}
+            1 & 0 & 0 & 30\\
+            0 & -1 & 0 & 15\\
+            0 & 0 & -1 & 1\\
+            0 & 0 & 0 & 1
+          \end{pmatrix}
+        \end{align*}
+
+
+
+        \item[3)]
+
+
+
+        \item[4)]
     \end{enumerate}
 
 \end {enumerate}

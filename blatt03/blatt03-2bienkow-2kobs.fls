@@ -270,6 +270,8 @@ INPUT /usr/local/texlive/2013/texmf-dist/tex/latex/fancyhdr/fancyhdr.sty
 INPUT /usr/local/texlive/2013/texmf-dist/tex/latex/fancyhdr/fancyhdr.sty
 INPUT /usr/local/texlive/2013/texmf-dist/tex/latex/tools/multicol.sty
 INPUT /usr/local/texlive/2013/texmf-dist/tex/latex/tools/multicol.sty
+INPUT /usr/local/texlive/2013/texmf-dist/tex/latex/was/gensymb.sty
+INPUT /usr/local/texlive/2013/texmf-dist/tex/latex/was/gensymb.sty
 INPUT /usr/local/texlive/2013/texmf-dist/tex/generic/pgf/frontendlayer/tikz/libraries/tikzlibrarycalc.code.tex
 INPUT /usr/local/texlive/2013/texmf-dist/tex/generic/pgf/frontendlayer/tikz/libraries/tikzlibrarypatterns.code.tex
 INPUT /usr/local/texlive/2013/texmf-dist/tex/generic/pgf/libraries/pgflibrarypatterns.code.tex
