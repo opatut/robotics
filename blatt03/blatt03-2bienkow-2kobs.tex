@@ -47,21 +47,111 @@
 \item[\textbf{Task 3.2.}]
 
     \begin{enumerate}
-        \item[1)] The coordinate frames of the manipulator are chosen with respect to the modified Denavit-Hartenberg-convention.
+        \item[1)] The coordinate frames of the manipulator are chosen with respect to the modified Denavit-Hartenberg-convention, because the coordinate frames are positioned at the joints themselves.
+
+        The DH-table is then specified by:
         \begin{table}[h]
+          \center
           \begin{tabular}{l|llll}
             \hline
             Link i & $\alpha_{i-1}$ & $a_{i-1}$ & $d_i$ & $\theta_i$\\
             \hline
-            1 & 0 & 0 & 0 & 0\\
-            2 & 0 & 0 & 0 & 0\\
-            3 & 0 & 0 & 0 & 0\\
+            1 & 0\degree & 0 & 0 & 0\degree\\
+            2 & -90\degree & 0 & 0 & 0\degree\\
+            3 & 0\degree & $l_a$ & 0 & 0\degree\\
             \hline
           \end{tabular}
         \end{table}
 
 
-        \item[2)]
+        \item[2)] We split up the transformation into three subtransformations
+        $${^0T_3} = A_1A_2A_3$$
+        These can be calculated with the matrix in the slides for the modified Denavit-Hartenberg convention.
+        \begin{align*}
+          A_i &=
+          \begin{pmatrix}
+            \cos(\theta_i) & -\sin(\theta_i) & 0 & a_{i-1}\\
+            \sin(\theta_i)\cos(\alpha_{i-1}) & \cos(\theta_i)\cos(\alpha_{i-1}) & -\sin(\alpha_{i-1}) & -\sin(\alpha_{i-1})d_i\\
+            \sin(\theta_i)\sin(\alpha_{i-1}) & \cos(\theta_i)\sin(\alpha_{i-1}) & \cos(\alpha_{i-1}) & \cos(\alpha_{i-1})d_i\\
+            0 & 0 & 0 & 1
+          \end{pmatrix}\\
+          A_1 &=
+            \begin{pmatrix}
+              \cos(0) & -\sin(0) & 0 & 0\\
+              \sin(0)\cos(0) & \cos(0)\cos(0) & -\sin(0) & -\sin(0) \cdot 0\\
+              \sin(0)\sin(0) & \cos(0)\sin(0) & \cos(0) & \cos(0) \cdot 0\\
+              0 & 0 & 0 & 1
+            \end{pmatrix} = \begin{pmatrix}
+              1 & 0 & 0 & 0\\
+              0 & 1 & 0 & 0\\
+              0 & 0 & 1 & 0\\
+              0 & 0 & 0 & 1
+            \end{pmatrix}\\
+          A_2 &=
+            \begin{pmatrix}
+              \cos(0) & -\sin(0) & 0 & 0\\
+              \sin(0)\cos(-90) & \cos(0)\cos(-90) & -\sin(-90) & -\sin(-90) \cdot 0\\
+              \sin(0)\sin(-90) & \cos(0)\sin(-90) & \cos(-90) & \cos(-90) \cdot 0\\
+              0 & 0 & 0 & 1
+            \end{pmatrix} = \begin{pmatrix}
+              1 & 0 & 0 & 0\\
+              0 & 0 & 1 & 0\\
+              0 & -1 & 0 & 0\\
+              0 & 0 & 0 & 1
+            \end{pmatrix}\\
+          A_3 &=
+            \begin{pmatrix}
+              \cos(0) & -\sin(0) & 0 & l_a\\
+              \sin(0)\cos(0) & \cos(0)\cos(0) & -\sin(0) & -\sin(0) \cdot 0\\
+              \sin(0)\sin(0) & \cos(0)\sin(0) & \cos(0) & \cos(0) \cdot 0\\
+              0 & 0 & 0 & 1
+            \end{pmatrix} = \begin{pmatrix}
+              1 & 0 & 0 & l_a\\
+              0 & 1 & 0 & 0\\
+              0 & 0 & 1 & 0\\
+              0 & 0 & 0 & 1
+            \end{pmatrix}\\
+        \end{align*}
+
+        Now we can multiply these matrices to get the overall transformation
+        \begin{align*}
+          {^0T_3} &= A_1A_2A_3\\
+          &= \begin{pmatrix}
+            1 & 0 & 0 & 0\\
+            0 & 1 & 0 & 0\\
+            0 & 0 & 1 & 0\\
+            0 & 0 & 0 & 1
+          \end{pmatrix} \begin{pmatrix}
+            1 & 0 & 0 & 0\\
+            0 & 0 & 1 & 0\\
+            0 & -1 & 0 & 0\\
+            0 & 0 & 0 & 1
+          \end{pmatrix} \begin{pmatrix}
+            1 & 0 & 0 & l_a\\
+            0 & 1 & 0 & 0\\
+            0 & 0 & 1 & 0\\
+            0 & 0 & 0 & 1
+          \end{pmatrix}\\
+          &= \begin{pmatrix}
+            1 & 0 & 0 & 0\\
+            0 & 0 & 1 & 0\\
+            0 & -1 & 0 & 0\\
+            0 & 0 & 0 & 1
+          \end{pmatrix} \begin{pmatrix}
+            1 & 0 & 0 & l_a\\
+            0 & 1 & 0 & 0\\
+            0 & 0 & 1 & 0\\
+            0 & 0 & 0 & 1
+          \end{pmatrix}\\
+          &=  \begin{pmatrix}
+            1 & 0 & 0 & l_a\\
+            0 & 0 & 1 & 0\\
+            0 & -1 & 0 & 0\\
+            0 & 0 & 0 & 1
+          \end{pmatrix}\\
+        \end{align*}
+
+
     \end{enumerate}
 
 \item[\textbf{Task 3.3.}]
