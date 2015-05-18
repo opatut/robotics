@@ -133,9 +133,7 @@
           \end{pmatrix}
         \end{align*}
 
-
-
-        \item[3)] 
+        \item[3)]
 
 
 
@@ -152,6 +150,8 @@
   \item Calculation impreciseness: The homogeneous transformation ${^{Base}T_{Tooltip}}$ can't be precise to 100\%, because most of the sine- and cosine-calculations have irrational numbers as results. This leads to the questions, how many decimal places are required to satisfy the calculation results.
   \item Sensor noise: If sensors are giving the wrong signals, the system could calculate with the wrong numbers and would assume a false position, which will be ``corrected''. his would lead to a wrong position at the end.
 \end{itemize}
+
+A limit for the positioning accuracy in this setup (vision system based) is on pixel level. If the robot satisfies the position for the vision system, no more movements are made. Then the area of points around the specified position, where the vision system confirms the desired position, has unlimited points, but are lying in a specific radius (which is determined by the resolution of one pixel of the vision system). All of these points should be a good estimation for the real position.
 
 \end {enumerate}
 \end{document}
