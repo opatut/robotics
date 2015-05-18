@@ -135,12 +135,23 @@
 
 
 
-        \item[3)]
+        \item[3)] 
 
 
 
         \item[4)]
     \end{enumerate}
+
+\item[\textbf{Task 3.4.}] The positioning accuracy depends on several things. These are for example:
+
+\begin{itemize}
+  \item Calibration of the camera system: If the camera can't accuratly determine every position in the space, there won't be an accurate positioning.
+  \item Joint position accuracy: If the joints are not precise in achieving their position, then the overall positioning is not very accurate.
+  \item Temperature differences: If the temperature varies, the metal of the links (if metal is used) varies in its length and therefore leads to a more unprecise positioning of the endeffector.
+  \item Position of the base: If the base is not properly positioned in space, then the endeffector won't be very accurate.
+  \item Calculation impreciseness: The homogeneous transformation ${^{Base}T_{Tooltip}}$ can't be precise to 100\%, because most of the sine- and cosine-calculations have irrational numbers as results. This leads to the questions, how many decimal places are required to satisfy the calculation results.
+  \item Sensor noise: If sensors are giving the wrong signals, the system could calculate with the wrong numbers and would assume a false position, which will be ``corrected''. his would lead to a wrong position at the end.
+\end{itemize}
 
 \end {enumerate}
 \end{document}

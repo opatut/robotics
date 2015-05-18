@@ -339,6 +339,8 @@ INPUT /usr/local/texlive/2013/texmf-dist/fonts/tfm/public/amsfonts/symbols/msam1
 INPUT /usr/local/texlive/2013/texmf-dist/fonts/tfm/public/amsfonts/symbols/msbm10.tfm
 OUTPUT blatt03-2bienkow-2kobs.pdf
 INPUT /usr/local/texlive/2013/texmf-var/fonts/map/pdftex/updmap/pdftex.map
+INPUT /usr/local/texlive/2013/texmf-dist/tex/latex/lm/omslmr.fd
+INPUT /usr/local/texlive/2013/texmf-dist/tex/latex/lm/omslmr.fd
 INPUT blatt03-2bienkow-2kobs.aux
 INPUT /usr/local/texlive/2013/texmf-dist/fonts/enc/dvips/lm/lm-mathex.enc
 INPUT /usr/local/texlive/2013/texmf-dist/fonts/enc/dvips/lm/lm-mathsy.enc
