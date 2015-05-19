@@ -37,9 +37,9 @@
 \begin{document}
 \maketitle
 \begin {enumerate}
-\item[\textbf{Task 3.1.}] The gripper should rotate positively around the z-axis and simultaneously translate upwards in z-direction. In fact, it should move $h$ upwards and rotate a given times, that is determined by the thread hight. We will call this variable $rotations$. Both motions have to been done in a linear motion, because we assume, that the angular velocity is constant. This way, we can't use non-linear velocity for the movement in z-direction. To calculate the constant translation velocity $v_z$, we assume, that $t \in [0,1]$. This leads to $v_z = h$. $w_z$ needs to be $rotations \cdot 360\degree$, because we want to rotate $rotations$ times in the given time span from 0 to 1.
+\item[\textbf{Task 3.1.}] The gripper should rotate in positive direction around the z-axis and simultaneously translate upwards in z-direction. In fact, it should move $h$ upwards and rotate a given number of times, which is determined by the thread height. We will call this variable $rotations$. Both motions have to been done in a linear fashion, because we assume that the angular velocity is constant. This way, we can't use non-linear velocity for the movement in z-direction. To calculate the constant translation velocity $v_z$, we assume that $t \in [0,1]$. This leads to $v_z = h$. $w_z$ needs to be $rotations \cdot 360\degree$, because we want to rotate $rotations$ times in the given time span from 0 to 1.
 
-This gives us two functions, one to calculate the degrees, that were rotated until time step $t$ ($degr(t)$) and the movement, that was made until this time step ($upw(t)$):
+This gives us two functions, one to calculate the angle of rotation at time $t$ ($degr(t)$) and the length of the translation at this time step ($upw(t)$):
 \begin{align*}
   degr(t) &= rotations \cdot 360\degree \cdot t\\
   upw(t) &= h \cdot t
@@ -78,7 +78,7 @@ Then, the overall transformation is given by
 \item[\textbf{Task 3.2.}]
 
     \begin{enumerate}
-        \item[1)] The coordinate frames of the manipulator are chosen with respect to the modified Denavit-Hartenberg-convention, because the coordinate frames are positioned at the joints themselves.
+        \item[1)] The coordinate frames of the manipulator are chosen with respect to the \emph{modified} Denavit-Hartenberg-convention, because the coordinate frames are positioned at the joints themselves.
 
         The DH-table is then specified by:
         \begin{table}[h]
@@ -222,7 +222,7 @@ Then, the overall transformation is given by
             0 & 0 & 0 & 1
           \end{pmatrix}
         \end{align*}
-        We can see, that the resulting homogeneous transformation is only a translation. This makes sense, because both the coordinate frame axes of the base and the part are parallel to each other.
+        We can see that the resulting homogeneous transformation is only a translation. This makes sense, because both axes of the coordinate frames of the base and the object are parallel to each other.
 
 
         \item[2)]
@@ -255,24 +255,22 @@ Then, the overall transformation is given by
         \end{align*}
 
         \item[3)]
-
-
-
         \item[4)]
     \end{enumerate}
 
 \item[\textbf{Task 3.4.}] The positioning accuracy depends on several things. These are for example:
 
 \begin{itemize}
-  \item Calibration of the camera system: If the camera can't accuratly determine every position in the space, there won't be an accurate positioning.
+  \item Calibration of the camera system: If the camera can't accuratly determine every position in the workspace, there won't be an accurate positioning.
   \item Joint position accuracy: If the joints are not precise in achieving their position, then the overall positioning is not very accurate.
-  \item Temperature differences: If the temperature varies, the metal of the links (if metal is used) varies in its length and therefore leads to a more unprecise positioning of the endeffector.
+  \item Temperature differences: If the temperature varies, the metal parts of the links varies in length and therefore leads to less precise positioning of the endeffector.
   \item Position of the base: If the base is not properly positioned in space, then the endeffector won't be very accurate.
-  \item Calculation impreciseness: The homogeneous transformation ${^{Base}T_{Tooltip}}$ can't be precise to 100\%, because most of the sine- and cosine-calculations have irrational numbers as results. This leads to the questions, how many decimal places are required to satisfy the calculation results.
-  \item Sensor noise: If sensors are giving the wrong signals, the system could calculate with the wrong numbers and would assume a false position, which will be ``corrected''. his would lead to a wrong position at the end.
+  \item Calculation impreciseness: The homogeneous transformation ${^{Base}T_{Tooltip}}$ can't be precise, because most of the sine and cosine calculations have irrational numbers as results. This leads to the question of how many decimal places are required to be decently accurate in the calculation.
+  \item Sensor noise: If sensors are giving the wrong signals, the system could calculate with the wrong numbers and would assume a wrong position. Error-correction thereof would lead to a wrong position at the end.
 \end{itemize}
 
-A limit for the positioning accuracy in this setup (vision system based) is on pixel level. If the robot satisfies the position for the vision system, no more movements are made. Then the area of points around the specified position, where the vision system confirms the desired position, has unlimited points, but are lying in a specific radius (which is determined by the resolution of one pixel of the vision system). All of these points should be a good estimation for the real position.
+A limit for the positioning accuracy in this setup (vision system based) is on pixel level. If the robot satisfies the position for the vision system, no more movements are made. However, the resolution of the camera and image processing algorithms limit the accuracy, and very small changes or offsets cannot be detected. Hence, a very small offset from the target will not be corrected.
 
-\end {enumerate}
+\end{enumerate}
+
 \end{document}
