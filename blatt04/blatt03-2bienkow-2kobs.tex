@@ -122,6 +122,97 @@
 			\end{center}
 			
 			\item[2)]
+				For the calculation of the Jacobian matrix, we need to get (again) the position and orientation of the end effector. The orientation is again as easy to determine as in 4.1:
+				$$\begin{pmatrix}
+					\omega_x \\
+					\omega_y \\
+					\omega_z
+				\end{pmatrix} = \begin{pmatrix}
+					0 \\
+					0 \\
+					\theta_1 + \theta_2
+				\end{pmatrix}$$
+				
+				The transformation matrix for this manipulator can be determined by calculating:
+				
+				\begin{align*}
+					{^0T_1} &= Rot_{z}(\theta_1) \cdot Trans_{x_1}(l_1)\\
+					&= \begin{pmatrix}
+						C_1 & -S_1 & 0 & l_1 \cdot C_1\\
+						S_1 & C_1 & 0 & l_1 \cdot S_1\\
+						0 & 0 & 1 & 0\\
+						0 & 0 & 0 & 1
+					\end{pmatrix}\\
+					{^1T_2} &= Rot_{z}(\theta_2) \cdot Trans_{x_2}(l_2)\\
+					&= \begin{pmatrix}
+						C_2 & -S_2 & 0 & l_2 \cdot C_2\\
+						S_2 & C_2 & 0 & l_2 \cdot S_2\\
+						0 & 0 & 1 & 0\\
+						0 & 0 & 0 & 1
+					\end{pmatrix}\\
+					\begin{pmatrix}
+						x \\
+						y \\
+						z \\
+						1
+					\end{pmatrix} &= {^0T_1} \cdot {^1T_2} \cdot \begin{pmatrix}
+						0 \\
+						0 \\
+						0 \\
+						1
+					\end{pmatrix}\\
+					&= \begin{pmatrix}
+						C_1 \cdot C_2 \cdot l_2 - S_1 \cdot S_2 \cdot l_2 + C_1 \cdot l_1\\
+						S_1 \cdot C_2 \cdot l_2 + C_1 \cdot S_2 \cdot l_2 + S_1 \cdot l_1\\
+						0 \\
+						1
+					\end{pmatrix}\\
+					&\overset{\text{sum formulas}}{=} \begin{pmatrix}
+						l_2 \cdot C_{1+2} + C_1 \cdot l_1\\
+						l_2 \cdot S_{1+2} + S_1 \cdot l_1\\
+						0 \\
+						1
+					\end{pmatrix}\\
+				\end{align*}
+				
+				Now we construct the two parts of the final Jacobian matrix with the partial derivatives and can then put them together to get the Jacobian matrix.
+				
+				\begin{align*}
+					J_v &= \begin{pmatrix}
+						\frac{\partial x}{\partial \theta_1} & \frac{\partial x}{\partial \theta_2} \\
+						\frac{\partial y}{\partial \theta_1} & \frac{\partial y}{\partial \theta_2} \\
+						\frac{\partial z}{\partial \theta_1} & \frac{\partial z}{\partial \theta_2}
+					\end{pmatrix} \\
+					&= \begin{pmatrix}
+						- l_2 \cdot S_{1+2} - S_1 \cdot l_1 & - l_2 \cdot S_{1+2}\\
+						l_2 \cdot C_{1+2} + C_1 \cdot l_1 & l_2 \cdot C_{1+2}\\
+						0 & 0
+					\end{pmatrix}\\
+					J_w &= \begin{pmatrix}
+						\frac{\partial \omega_x}{\partial \theta_1} & \frac{\partial \omega_x}{\partial \theta_2} \\
+						\frac{\partial \omega_y}{\partial \theta_1} & \frac{\partial \omega_y}{\partial \theta_2} \\
+						\frac{\partial \omega_z}{\partial \theta_1} & \frac{\partial \omega_z}{\partial \theta_2}
+					\end{pmatrix} \\
+					&= \begin{pmatrix}
+						0 & 0 \\
+						0 & 0 \\
+						1 & 1 \\
+					\end{pmatrix}\\
+					J &= \begin{pmatrix}
+						J_v\\
+						J_w
+					\end{pmatrix}\\
+					&= \begin{pmatrix}
+						- l_2 \cdot S_{1+2} - S_1 \cdot l_1 & - l_2 \cdot S_{1+2}\\
+						l_2 \cdot C_{1+2} + C_1 \cdot l_1 & l_2 \cdot C_{1+2}\\
+						0 & 0\\
+						0 & 0 \\
+						0 & 0 \\
+						1 & 1 \\
+					\end{pmatrix}\\
+				\end{align*}
+				
+				
 			
 			\item[3)]
 			
