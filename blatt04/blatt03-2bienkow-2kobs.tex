@@ -39,11 +39,7 @@
 \maketitle
 \begin {enumerate}
 	\item[\textbf{Task 4.1.}]
-		% Den gesamten Scheiß habe ich im Skript nicht verstanden, ich habe deshalb auf
-		%		https://studywolf.wordpress.com/2013/09/02/robot-control-jacobians-velocity-and-force/
-		% ein ganz nettes Tutorial gefunden. :)	
-	
-		To calculate the Jacobian matrix, we need the position of the end-effector based on the joint angles and the orientation of the end-effector. To get the position, we need to determine the homogeneous transformation from the base to the end-effector point. We can reuse the general transformation matrix given in assignment 2 task 1, because these manipulators are the same. Only $a_i$ needs to be changed to $l_i$. Therefore we have
+		To calculate the Jacobian matrix, we need the position of the end effector based on the joint angles. Therefore, we need to determine the homogeneous transformation from the base to the end effector point. We can reuse the general transformation matrix given in assignment 2 task 1, because the manipulator shown there is the same as the one in this task. Only $a_i$ needs to be changed to $l_i$. Then we have
 		
 		$${^{0}T_3} = \begin{pmatrix}
 			C_{1+2+3} & -S_{1+2+3} & 0 & C_{1+2+3}l_3 + C_{1+2}l_2+C_1l_1\\
@@ -52,64 +48,16 @@
 			0 & 0 & 0 & 1
 		\end{pmatrix}$$
 		
-		From this matrix, we can easily extract the position of the end-effector, which is
-		
-		$$\begin{pmatrix}
-			x \\
-			y \\
-			z
-		\end{pmatrix} = \begin{pmatrix}
-			C_{1+2+3}l_3 + C_{1+2}l_2+C_1l_1\\
-			S_{1+2+3}l_3 + S_{1+2}l_2 + S_1l_1\\
-			0
-		\end{pmatrix}$$
-		
-		The orientation of the end-effector is easy to determine. Because the manipulator just moves in the $(x,y)$-plane, we can set the orientation vector to
-		
-		$$\begin{pmatrix}
-			\omega_x \\
-			\omega_y \\
-			\omega_z
-		\end{pmatrix} = \begin{pmatrix}
-			0 \\
-			0 \\
-			\theta_1 + \theta_2 + \theta_3
-		\end{pmatrix}$$
-		
-		with $\omega$ denotes the angular velocity. Now we can calculate the Jacobian matrices $J_v$ and $J_w$ and from this the resulting Jacobian matrix $J$, which are all partial derivatives of both determined vectors:
+		Because this is a planar manipulator, we just need the x and y coodinates. These are $x = C_{1+2+3} \cdot l_3 + C_{1+2} \cdot l_2 + C_1 \cdot l_1$ and $y = S_{1+2+3} \cdot l_3 + S_{1+2} \cdot l_2 + S_1 \cdot l_1$. The Jacobian matrix has to be a $2 \times 3$ matrix, because we have 2 degrees of freedom in cartesian space and 3 degrees of freedom in joint space. The entries of this matrix are the partial derivatives of x and y.
 		
 		\begin{align*}
-			J_v &= \begin{pmatrix}
-				\frac{\partial x}{\partial \theta_1} & \frac{\partial x}{\partial \theta_2} & \frac{\partial x}{\partial \theta_3} \\
-				\frac{\partial y}{\partial \theta_1} & \frac{\partial y}{\partial \theta_2} & \frac{\partial y}{\partial \theta_3} \\
-				\frac{\partial z}{\partial \theta_1} & \frac{\partial z}{\partial \theta_2} & \frac{\partial z}{\partial \theta_3}
-			\end{pmatrix} \\
-			&= \begin{pmatrix}
-				-S_{1+2+3}l_3 - S_{1+2}l_2 - S_1l_1 & -S_{1+2+3}l_3 - S_{1+2}l_2 & -S_{1+2+3}l_3\\
-				C_{1+2+3}l_3 + C_{1+2}l_2 + C_1l_1 & C_{1+2+3}l_3 + C_{1+2}l_2 & C_{1+2+3}l_3\\
-				0 & 0 & 0
-			\end{pmatrix}\\
-			J_w &= \begin{pmatrix}
-				\frac{\partial \omega_x}{\partial \theta_1} & \frac{\partial \omega_x}{\partial \theta_2} & \frac{\partial \omega_x}{\partial \theta_3} \\
-				\frac{\partial \omega_y}{\partial \theta_1} & \frac{\partial \omega_y}{\partial \theta_2} & \frac{\partial \omega_y}{\partial \theta_3} \\
-				\frac{\partial \omega_z}{\partial \theta_1} & \frac{\partial \omega_z}{\partial \theta_2} & \frac{\partial \omega_z}{\partial \theta_3}
-			\end{pmatrix} \\
-			&= \begin{pmatrix}
-				0 & 0 & 0 \\
-				0 & 0 & 0 \\
-				1 & 1 & 1 \\
-			\end{pmatrix}\\
 			J &= \begin{pmatrix}
-				J_v\\
-				J_w
+				\frac{\partial x}{\partial \theta_1} & \frac{\partial x}{\partial \theta_2} & \frac{\partial x}{\partial \theta_3} \\[6pt]
+				\frac{\partial y}{\partial \theta_1} & \frac{\partial y}{\partial \theta_2} & \frac{\partial y}{\partial \theta_3} \\
 			\end{pmatrix}\\
 			&= \begin{pmatrix}
-				-S_{1+2+3}l_3 - S_{1+2}l_2 - S_1l_1 & -S_{1+2+3}l_3 - S_{1+2}l_2 & -S_{1+2+3}l_3\\
-				C_{1+2+3}l_3 + C_{1+2}l_2 + C_1l_1 & C_{1+2+3}l_3 + C_{1+2}l_2 & C_{1+2+3}l_3\\
-				0 & 0 & 0\\
-				0 & 0 & 0 \\
-				0 & 0 & 0 \\
-				1 & 1 & 1 \\
+				-S_{1+2+3} \cdot l_3 - S_{1+2} \cdot l_2 - S_1 \cdot l_1 & -S_{1+2+3} \cdot l_3 - S_{1+2} \cdot l_2 & -S_{1+2+3} \cdot l_3\\
+				C_{1+2+3} \cdot l_3 + C_{1+2} \cdot l_2 + C_1 \cdot l_1 & C_{1+2+3} \cdot l_3 + C_{1+2} \cdot l_2 & C_{1+2+3} \cdot l_3
 			\end{pmatrix}\\
 		\end{align*}
 		
@@ -122,18 +70,7 @@
 			\end{center}
 			
 			\item[2)]
-				For the calculation of the Jacobian matrix, we need to get (again) the position and orientation of the end effector. The orientation is again as easy to determine as in 4.1:
-				$$\begin{pmatrix}
-					\omega_x \\
-					\omega_y \\
-					\omega_z
-				\end{pmatrix} = \begin{pmatrix}
-					0 \\
-					0 \\
-					\theta_1 + \theta_2
-				\end{pmatrix}$$
-				
-				The transformation matrix for this manipulator can be determined by calculating:
+				We need the x and y coordinates of the end effector. We can determine these by calculating the transformation matrix and extract the respective entries:
 				
 				\begin{align*}
 					{^0T_1} &= Rot_{z}(\theta_1) \cdot Trans_{x_1}(l_1)\\
@@ -150,73 +87,47 @@
 						0 & 0 & 1 & 0\\
 						0 & 0 & 0 & 1
 					\end{pmatrix}\\
-					\begin{pmatrix}
-						x \\
-						y \\
-						z \\
-						1
-					\end{pmatrix} &= {^0T_1} \cdot {^1T_2} \cdot \begin{pmatrix}
-						0 \\
-						0 \\
-						0 \\
-						1
-					\end{pmatrix}\\
+					{^0T_2} &= {^0T_1} \cdot {^1T_2}\\
 					&= \begin{pmatrix}
-						C_1 \cdot C_2 \cdot l_2 - S_1 \cdot S_2 \cdot l_2 + C_1 \cdot l_1\\
-						S_1 \cdot C_2 \cdot l_2 + C_1 \cdot S_2 \cdot l_2 + S_1 \cdot l_1\\
-						0 \\
-						1
-					\end{pmatrix}\\
-					&\overset{\text{sum formulas}}{=} \begin{pmatrix}
-						l_2 \cdot C_{1+2} + C_1 \cdot l_1\\
-						l_2 \cdot S_{1+2} + S_1 \cdot l_1\\
-						0 \\
-						1
+						C_{1+2} & -S_{1+2} & 0 & C_1 \cdot l_1 + C_{1+2} \cdot l_2 \\
+						S_{1+2} & C_{1+2} & 0 & S_1 \cdot l_1 + S_{1+2} \cdot l_2 \\
+						0 & 0 & 1 & 0\\
+						0 & 0 & 0 & 1
 					\end{pmatrix}\\
 				\end{align*}
 				
-				Now we construct the two parts of the final Jacobian matrix with the partial derivatives and can then put them together to get the Jacobian matrix.
+				So $x = C_1 \cdot l_1 + C_{1+2} \cdot l_2$ and $y = S_1 \cdot l_1 + S_{1+2} \cdot l_2$.
+				
+				Given that
+				
+				$$J = \begin{pmatrix}
+					\frac{\partial x}{\partial \theta_1} & \frac{\partial x}{\partial \theta_2} \\[6pt]
+					\frac{\partial y}{\partial \theta_1} & \frac{\partial y}{\partial \theta_2}
+				\end{pmatrix} \\$$
+					
+				this leads to
+				
+				$$J = \begin{pmatrix}
+					-S_1 \cdot l_1 - S_{1+2} \cdot l_2 & -S_{1+2} \cdot l_2 \\
+					C_1 \cdot l_1 + C_{1+2} \cdot l_2 & C_{1+2} \cdot l_2 \\
+				\end{pmatrix} \\$$
+				
+			\item[3)]
+				If the determinant of the Jacobian matrix is zero, then the matrix is not invertible and therefore singular. This is why we need to calculate the determinant of the previously calculated matrix and set it equal to zero:
 				
 				\begin{align*}
-					J_v &= \begin{pmatrix}
-						\frac{\partial x}{\partial \theta_1} & \frac{\partial x}{\partial \theta_2} \\
-						\frac{\partial y}{\partial \theta_1} & \frac{\partial y}{\partial \theta_2} \\
-						\frac{\partial z}{\partial \theta_1} & \frac{\partial z}{\partial \theta_2}
-					\end{pmatrix} \\
-					&= \begin{pmatrix}
-						- l_2 \cdot S_{1+2} - S_1 \cdot l_1 & - l_2 \cdot S_{1+2}\\
-						l_2 \cdot C_{1+2} + C_1 \cdot l_1 & l_2 \cdot C_{1+2}\\
-						0 & 0
-					\end{pmatrix}\\
-					J_w &= \begin{pmatrix}
-						\frac{\partial \omega_x}{\partial \theta_1} & \frac{\partial \omega_x}{\partial \theta_2} \\
-						\frac{\partial \omega_y}{\partial \theta_1} & \frac{\partial \omega_y}{\partial \theta_2} \\
-						\frac{\partial \omega_z}{\partial \theta_1} & \frac{\partial \omega_z}{\partial \theta_2}
-					\end{pmatrix} \\
-					&= \begin{pmatrix}
-						0 & 0 \\
-						0 & 0 \\
-						1 & 1 \\
-					\end{pmatrix}\\
-					J &= \begin{pmatrix}
-						J_v\\
-						J_w
-					\end{pmatrix}\\
-					&= \begin{pmatrix}
-						- l_2 \cdot S_{1+2} - S_1 \cdot l_1 & - l_2 \cdot S_{1+2}\\
-						l_2 \cdot C_{1+2} + C_1 \cdot l_1 & l_2 \cdot C_{1+2}\\
-						0 & 0\\
-						0 & 0 \\
-						0 & 0 \\
-						1 & 1 \\
-					\end{pmatrix}\\
+					\det(J) &= 0\\
+					&= (-S_1 \cdot l_1 - S_{1+2} \cdot l_2) \cdot (C_{1+2} \cdot l_2) - (-S_{1+2} \cdot l_2) \cdot (C_1 \cdot l_1 + C_{1+2} \cdot l_2)\\
+					&= - (S_1 \cdot l_1 \cdot C_{1+2} \cdot l_2) - (S_{1+2} \cdot l_2 \cdot C_{1+2} \cdot l_2) + (S_{1+2} \cdot l_2 \cdot C_1 \cdot l_1) + (S_{1+2} \cdot l_2 \cdot C_{1+2} \cdot l_2) \\
+					&= - (S_1 \cdot l_1 \cdot C_{1+2} \cdot l_2) + (S_{1+2} \cdot l_2 \cdot C_1 \cdot l_1) \\
+					&= l_1 \cdot l_2 \cdot ( S_{1+2} \cdot C_1 - C_{1+2} \cdot S_1 )\\
+					&\overset{\text{sum rule}}{=} l_1 \cdot l_2 \cdot S_{1+2-1}\\
+					&= l_1 \cdot l_2 \cdot S_{2} = 0
 				\end{align*}
 				
+				Because we can assume that both lengths $l_1$ and $l_2$ are bigger than zero, $S_2$ has to be zero. That happens, when $\theta_2 = 0\degree$ or $\theta_2 = 180\degree$. So these are the singular configurations of the manipulator.
 				
-			
-			\item[3)]
-			
-			\item[4)]
+			\item[4)] If $\theta_2$ is zero or 180 degree, the manipulator will be at the edge of its workspace. So the possibility of moving any further than that is not there. The singularity is when the joint velocity becomes infinite to maintain cartesian velocity. That is the case, because we cannot go any further than this.
 			
 		\end{enumerate}				
 		
