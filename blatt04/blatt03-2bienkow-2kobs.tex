@@ -138,8 +138,182 @@
 			\item Assuming the length $a_2$ is much longer than the length $d_4$, then the arm can fold back in at $\theta_3 = 180\degree$ and therefore, we have a workspace boundary singularity here as well.
 		\end{enumerate}
 	
-
 	\item[\textbf{Task 4.4.}]
-	
+		We will combine rotations, that we can easily calculate, to get the overall matrix around an arbitrary vector $k$. This will be established by:
+		\begin{enumerate}
+			\item rotating the vector $k$ about the global z axis to align it with the (x,z) plane (we call this angle $\alpha$).
+			\item rotating the vector about the global y axis to align it with the global x axis (we call this angle $\beta$). Now rotating about $k$ is equal to rotating about the global x axis.
+			\item rotating about the global x axis/k by $\theta$.
+			\item reversing the rotation about the global y axis.
+			\item reversing the rotation about the global z axis.
+		\end{enumerate}
+		
+		Because we use Roll-Pitch-Yaw angles, we need to append a new rotation matrix on the left side.	 Finally, we can calculate the resulting matrix with this formula:
+		
+		$$Rot_{k, \theta} = Rot_{z}(-\alpha) \cdot Rot_{y}(-\beta) \cdot Rot_{x}(\theta) \cdot Rot_{y}(\beta) \cdot Rot_{z}(\alpha)$$
+		
+		This leads to:
+		
+		\begin{align*}
+			Rot_{k, \theta} &= Rot_{z}(-\alpha) \cdot Rot_{y}(-\beta) \cdot Rot_{x}(\theta) \cdot Rot_{y}(\beta) \cdot Rot_{z}(\alpha)\\
+			&= \begin{pmatrix}
+				C_{-\alpha} & -S_{-\alpha} & 0 & 0\\
+				S_{-\alpha} & C_{-\alpha} & 0 & 0\\
+				0 & 0 & 1 & 0\\
+				0 & 0 & 0 & 1\\
+			\end{pmatrix} \begin{pmatrix}
+				C_{-\beta} & 0 & S_{-\beta} & 0\\
+				0 & 1 & 0 & 0\\
+				-S_{-\beta} & 0 & C_{-\beta} & 0\\
+				0 & 0 & 0 & 1\\
+			\end{pmatrix} \begin{pmatrix}
+				1 & 0 & 0 & 0\\
+				0 & C_{\theta} & -S_{\theta} & 0\\
+				0 & S_{\theta} & C_{\theta} & 0\\
+				0 & 0 & 0 & 1\\
+			\end{pmatrix}\\
+			&\qquad \begin{pmatrix}
+				C_{\beta} & 0 & S_{\beta} & 0\\
+				0 & 1 & 0 & 0\\
+				-S_{\beta} & 0 & C_{\beta} & 0\\
+				0 & 0 & 0 & 1\\
+			\end{pmatrix} \begin{pmatrix}
+				C_{\alpha} & -S_{\alpha} & 0 & 0\\
+				S_{\alpha} & C_{\alpha} & 0 & 0\\
+				0 & 0 & 1 & 0\\
+				0 & 0 & 0 & 1\\
+			\end{pmatrix}\\
+	% ERSTE UMFORMUNG
+			&= \begin{pmatrix}
+				C_{-\alpha}C_{-\beta} & -S_{-\alpha} & C_{-\alpha}S_{-\beta} & 0\\
+				S_{-\alpha}C_{-\beta} & C_{-\alpha} & S_{-\alpha}S_{-\beta} & 0\\
+				-S_{-\beta} & 0 & C_{-\beta} & 0\\
+				0 & 0 & 0 & 1\\
+			\end{pmatrix} \begin{pmatrix}
+				1 & 0 & 0 & 0\\
+				0 & C_{\theta} & -S_{\theta} & 0\\
+				0 & S_{\theta} & C_{\theta} & 0\\
+				0 & 0 & 0 & 1\\
+			\end{pmatrix}\\
+			&\qquad \begin{pmatrix}
+				C_{\beta} & 0 & S_{\beta} & 0\\
+				0 & 1 & 0 & 0\\
+				-S_{\beta} & 0 & C_{\beta} & 0\\
+				0 & 0 & 0 & 1\\
+			\end{pmatrix} \begin{pmatrix}
+				C_{\alpha} & -S_{\alpha} & 0 & 0\\
+				S_{\alpha} & C_{\alpha} & 0 & 0\\
+				0 & 0 & 1 & 0\\
+				0 & 0 & 0 & 1\\
+			\end{pmatrix}\\
+	% ZWEITE UMFORMUNG
+			&= \begin{pmatrix}
+				C_{-\alpha}C_{-\beta} & -S_{-\alpha} & C_{-\alpha}S_{-\beta} & 0\\
+				S_{-\alpha}C_{-\beta} & C_{-\alpha} & S_{-\alpha}S_{-\beta} & 0\\
+				-S_{-\beta} & 0 & C_{-\beta} & 0\\
+				0 & 0 & 0 & 1\\
+			\end{pmatrix} \begin{pmatrix}
+				1 & 0 & 0 & 0\\
+				0 & C_{\theta} & -S_{\theta} & 0\\
+				0 & S_{\theta} & C_{\theta} & 0\\
+				0 & 0 & 0 & 1\\
+			\end{pmatrix}\\
+			&\qquad \begin{pmatrix}
+				C_{\beta}C_{\alpha} & -S_{\alpha}C_{\beta} & S_{\beta} & 0\\
+				S_{\alpha} & C_{\alpha} & 0 & 0\\
+				-S_{\beta}C_{\alpha} & S_{\beta}S_{\alpha} & C_{\beta} & 0\\
+				0 & 0 & 0 & 1\\
+			\end{pmatrix}\\
+	% DRITTE UMFORMUNG
+			&= \begin{pmatrix}
+				C_{-\alpha}C_{-\beta} & -S_{-\alpha}C_{\theta}+C_{-\alpha}S_{-\beta}S_{\theta} & S_{-\alpha}S_{\theta}+C_{-\alpha}S_{-\beta}C_{\theta} & 0\\
+				S_{-\alpha}C_{-\beta} & C_{-\alpha}C_{\theta}+S_{-\alpha}S_{-\beta}S_{\theta} & -S_{\theta}C_{-\alpha}+S_{-\alpha}S_{-\beta}C_{\theta} & 0\\
+				-S_{-\beta} & C_{-\beta}S_{\theta} & C_{-\beta}C_{\theta} & 0\\
+				0 & 0 & 0 & 1\\
+			\end{pmatrix}\\
+			&\qquad \begin{pmatrix}
+				C_{\beta}C_{\alpha} & -S_{\alpha}C_{\beta} & S_{\beta} & 0\\
+				S_{\alpha} & C_{\alpha} & 0 & 0\\
+				-S_{\beta}C_{\alpha} & S_{\beta}S_{\alpha} & C_{\beta} & 0\\
+				0 & 0 & 0 & 1\\
+			\end{pmatrix}\\
+	% VIERTE UMFORMUNG
+			&= \begin{pmatrix}
+				C_{-\alpha}C_{-\beta} & -S_{-\alpha}C_{\theta}+C_{-\alpha}S_{-\beta}S_{\theta} & S_{-\alpha}S_{\theta}+C_{-\alpha}S_{-\beta}C_{\theta} & 0\\
+				S_{-\alpha}C_{-\beta} & C_{-\alpha}C_{\theta}+S_{-\alpha}S_{-\beta}S_{\theta} & -S_{\theta}C_{-\alpha}+S_{-\alpha}S_{-\beta}C_{\theta} & 0\\
+				-S_{-\beta} & C_{-\beta}S_{\theta} & C_{-\beta}C_{\theta} & 0\\
+				0 & 0 & 0 & 1\\
+			\end{pmatrix}\\
+			&\qquad \begin{pmatrix}
+				C_{\beta}C_{\alpha} & -S_{\alpha}C_{\beta} & S_{\beta} & 0\\
+				S_{\alpha} & C_{\alpha} & 0 & 0\\
+				-S_{\beta}C_{\alpha} & S_{\beta}S_{\alpha} & C_{\beta} & 0\\
+				0 & 0 & 0 & 1\\
+			\end{pmatrix}\\
+			&= \begin{pmatrix}
+				a_x & b_x & c_x & 0\\
+				a_y & b_y & c_y & 0\\
+				a_z & b_z & c_z & 0\\
+				0 & 0 & 0 & 1\\
+			\end{pmatrix}\\
+		\end{align*}
+		
+		with
+		
+		\begin{align*}
+			a_x &= C_{-\alpha}C_{-\beta}C_{\beta}C_{\alpha} - S_{-\alpha}C_{\theta}S_{\alpha} + C_{-\alpha}S_{-\beta}S_{\theta}S_{\alpha} - S_{\beta}C_{\alpha}S_{-\alpha}S_{\theta} - S_{\beta}C_{\alpha}C_{-\alpha}S_{-\beta}C_{\theta}\\
+			&= C_{-\alpha}C_{-\beta}C_{\beta}C_{\alpha} - S_{-\alpha}C_{\theta}S_{\alpha} - S_{\beta}C_{\alpha}C_{-\alpha}S_{-\beta}C_{\theta}\\
+			&= C_{\alpha}C_{\beta}C_{\beta}C_{\alpha} + S_{\alpha}C_{\theta}S_{\alpha} + S_{\beta}C_{\alpha}C_{\alpha}S_{\beta}C_{\theta}\\
+			&= C_{\alpha}^2C_{\beta}^2 + S_{\alpha}^2C_{\theta} + S_{\beta}^2C_{\alpha}^2C_{\theta}\\
+			a_y &= S_{-\alpha}C_{-\beta}C_{\beta}C_{\alpha} + C_{-\alpha}C_{\theta}S_{\alpha} + S_{-\alpha}S_{-\beta}S_{\theta}S_{\alpha} + S_{\beta}C_{\alpha}S_{\theta}C_{-\alpha} - S_{\beta}C_{\alpha}S_{-\alpha}S_{-\beta}C_{\theta}\\
+			&= -S_{\alpha}C_{\beta}C_{\beta}C_{\alpha} + C_{\alpha}C_{\theta}S_{\alpha} + S_{\alpha}S_{\beta}S_{\theta}S_{\alpha} + S_{\beta}C_{\alpha}S_{\theta}C_{\alpha} - S_{\beta}C_{\alpha}S_{\alpha}S_{\beta}C_{\theta}\\
+			&= -S_{\alpha}C_{\beta}^2C_{\alpha} + C_{\alpha}C_{\theta}S_{\alpha} + S_{\alpha}^2S_{\beta}S_{\theta} + S_{\beta}C_{\alpha}^2S_{\theta} - S_{\beta}^2C_{\alpha}S_{\alpha}C_{\theta}\\
+			a_z &= -S_{-\beta}C_{\beta}C_{\alpha} + C_{-\beta}S_{\theta}S_{\alpha} - S_{\beta}C_{\alpha}C_{-\beta}C_{\theta}\\
+			&= S_{\beta}C_{\beta}C_{\alpha} + C_{\beta}S_{\theta}S_{\alpha} - S_{\beta}C_{\alpha}C_{\beta}C_{\theta}\\
+			b_x &= -S_{\alpha}C_{-\alpha}C_{-\beta}C_{\beta} - S_{-\alpha}C_{\theta}C_{\alpha} + C_{-\alpha}S_{-\beta}S_{\theta}C_{\alpha} + S_{\beta}S_{\alpha}S_{-\alpha}S_{\theta} + S_{\beta}S_{\alpha}C_{-\alpha}S_{-\beta}C_{\theta}\\
+			&= -S_{\alpha}C_{\alpha}C_{\beta}C_{\beta} + S_{\alpha}C_{\theta}C_{\alpha} - C_{\alpha}S_{\beta}S_{\theta}C_{\alpha} - S_{\beta}S_{\alpha}S_{\alpha}S_{\theta} - S_{\beta}S_{\alpha}C_{\alpha}S_{\beta}C_{\theta}\\
+			&= -S_{\alpha}C_{\alpha}C_{\beta}^2 + S_{\alpha}C_{\theta}C_{\alpha} - C_{\alpha}^2S_{\beta}S_{\theta} - S_{\beta}S_{\alpha}^2S_{\theta} - S_{\beta}^2S_{\alpha}C_{\alpha}C_{\theta}\\
+			b_y &= -S_{\alpha}C_{\beta}S_{-\alpha}C_{-\beta} + C_{\alpha}C_{-\alpha}C_{\theta} + C_{\alpha}S_{-\alpha}S_{-\beta}S_{\theta} - S_{\theta}C_{-\alpha}S_{\beta}S_{\alpha} + S_{-\alpha}S_{-\beta}C_{\theta}S_{\beta}S_{\alpha}\\
+			&= S_{\alpha}C_{\beta}S_{\alpha}C_{\beta} + C_{\alpha}C_{\alpha}C_{\theta} + C_{\alpha}S_{\alpha}S_{\beta}S_{\theta} - S_{\theta}C_{\alpha}S_{\beta}S_{\alpha} + S_{\alpha}S_{\beta}C_{\theta}S_{\beta}S_{\alpha}\\
+			&= S_{\alpha}^2C_{\beta}^2 + C_{\alpha}^2C_{\theta} + C_{\alpha}S_{\alpha}S_{\beta}S_{\theta} - S_{\theta}C_{\alpha}S_{\beta}S_{\alpha} + S_{\alpha}^2S_{\beta}^2C_{\theta}\\
+			b_z &= S_{-\beta}S_{\alpha}C_{\beta} + C_{-\beta}S_{\theta}C_{\alpha} + C_{-\beta}C_{\theta}S_{\beta}S_{\alpha}\\
+			&= -S_{\beta}S_{\alpha}C_{\beta} + C_{\beta}S_{\theta}C_{\alpha} + C_{\beta}C_{\theta}S_{\beta}S_{\alpha}\\
+			c_x &= C_{-\alpha}C_{-\beta}S_{\beta} + C_{\beta}S_{-\alpha}S_{\theta} + C_{\beta}C_{-\alpha}S_{-\beta}C_{\theta}\\
+			&= C_{\alpha}C_{\beta}S_{\beta} - C_{\beta}S_{\alpha}S_{\theta} - C_{\beta}C_{\alpha}S_{\beta}C_{\theta}\\
+			c_y &= S_{-\alpha}C_{-\beta}S_{\beta} - S_{\theta}C_{-\alpha}C_{\beta} + S_{-\alpha}S_{-\beta}C_{\theta}C_{\beta}\\
+			&= -S_{\alpha}C_{\beta}S_{\beta} - S_{\theta}C_{\alpha}C_{\beta} + S_{\alpha}S_{\beta}C_{\theta}C_{\beta}\\
+			c_z &= -S_{-\beta}S_{\beta} + C_{-\beta}C_{\theta}C_{\beta}\\
+			&= S_{\beta}S_{\beta} + C_{\beta}C_{\theta}C_{\beta}\\
+			&= S_{\beta}^2 + C_{\beta}^2C_{\theta}\\
+		\end{align*}
+		
+		which is correct, because
+		
+		$$S_{-\alpha} = -S_{\alpha}, \quad S_{-\beta} = -S_{\beta}, \quad C_{-\alpha} = C_{\alpha}, \quad C_{-\beta} = C_{\beta}$$
+		
+		We observe $\alpha$ and $\beta$ and get that
+		
+		$$S_{\alpha} = \frac{k_y}{\sqrt{k_x^2 + k_y^2}}, \quad S_{\beta} = \frac{k_z}{\sqrt{k_x^2+k_y^2+k_z^2}}, \quad C_{\alpha} = \frac{k_x}{\sqrt{k_x^2 + k_y^2}}, \quad C_{\beta} = \frac{\sqrt{k_x^2 + k_y^2}}{\sqrt{k_x^2+k_y^2+k_z^2}}$$
+		
+		because of the definitions of sine and cosine. Now, we can put these equations into the entries of the matrix:
+		
+		\begin{align*}
+			a_x &= C_{\alpha}^2C_{\beta}^2 + S_{\alpha}^2C_{\theta} + S_{\beta}^2C_{\alpha}^2C_{\theta}\\
+			&= \frac{k_x^2}{k_x^2 + k_y^2} \cdot \frac{k_x^2 + k_y^2}{k_x^2 + k_y^2 + k_z^2} + \frac{k_y^2}{k_x^2+k_y^2}C_{\theta} + \frac{k_z^2}{k_x^2+k_y^2+k_z^2} \cdot \frac{k_x^2}{k_x^2+k_y^2}C_{\theta}\\
+			&= \frac{k_x^2}{k_x^2 + k_y^2 + k_z^2} + \frac{k_y^2}{k_x^2+k_y^2}C_{\theta} + \frac{k_z^2}{k_x^2+k_y^2+k_z^2} \cdot \frac{k_x^2}{k_x^2+k_y^2}C_{\theta}\\
+			a_y &= -S_{\alpha}C_{\beta}^2C_{\alpha} + C_{\alpha}C_{\theta}S_{\alpha} + S_{\alpha}^2S_{\beta}S_{\theta} + S_{\beta}C_{\alpha}^2S_{\theta} - S_{\beta}^2C_{\alpha}S_{\alpha}C_{\theta}\\
+			a_z &= S_{\beta}C_{\beta}C_{\alpha} + C_{\beta}S_{\theta}S_{\alpha} - S_{\beta}C_{\alpha}C_{\beta}C_{\theta}\\
+			b_x &= -S_{\alpha}C_{\alpha}C_{\beta}^2 + S_{\alpha}C_{\theta}C_{\alpha} - C_{\alpha}^2S_{\beta}S_{\theta} - S_{\beta}S_{\alpha}^2S_{\theta} - S_{\beta}^2S_{\alpha}C_{\alpha}C_{\theta}\\
+			b_y &= S_{\alpha}^2C_{\beta}^2 + C_{\alpha}^2C_{\theta} + C_{\alpha}S_{\alpha}S_{\beta}S_{\theta} - S_{\theta}C_{\alpha}S_{\beta}S_{\alpha} + S_{\alpha}^2S_{\beta}^2C_{\theta}\\
+			b_z &= -S_{\beta}S_{\alpha}C_{\beta} + C_{\beta}S_{\theta}C_{\alpha} + C_{\beta}C_{\theta}S_{\beta}S_{\alpha}\\
+			c_x &= C_{\alpha}C_{\beta}S_{\beta} - C_{\beta}S_{\alpha}S_{\theta} - C_{\beta}C_{\alpha}S_{\beta}C_{\theta}\\
+			c_y &= -S_{\alpha}C_{\beta}S_{\beta} - S_{\theta}C_{\alpha}C_{\beta} + S_{\alpha}S_{\beta}C_{\theta}C_{\beta}\\
+			c_z &= S_{\beta}^2 + C_{\beta}^2C_{\theta}\\
+			&= \frac{k_z^2}{k_x^2+k_y^2+k_z^2} + \frac{k_x^2 + k_y^2}{k_x^2 + k_y^2 + k_z^2} C_{\theta}\\
+			&= \frac{k_z^2 + (k_x^2 + k_y^2) C_{\theta}}{k_x^2 + k_y^2 + k_z^2}
+		\end{align*}
+		
+		
+		
 \end {enumerate}
 \end{document}
