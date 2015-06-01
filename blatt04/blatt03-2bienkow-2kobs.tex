@@ -125,7 +125,7 @@
 					&= l_1 \cdot l_2 \cdot S_{2} = 0
 				\end{align*}
 				
-				Because we can assume that both lengths $l_1$ and $l_2$ are bigger than zero, $S_2$ has to be zero. That happens, when $\theta_2 = 0\degree$ or $\theta_2 = 180\degree$. So these are the singular configurations of the manipulator.
+				We assume that both lengths $l_1$ and $l_2$ are bigger than zero, therefore $S_2$ has to be zero. That happens, when $\theta_2 = 0\degree$ or $\theta_2 = 180\degree$. So these are the singular configurations of the manipulator.
 				
 			\item[4)] If $\theta_2$ is zero or 180 degree, the manipulator will be at the edge of its workspace. So the possibility of moving any further than that is not there. The singularity is when the joint velocity becomes infinite to maintain cartesian velocity. That is the case, because we cannot go any further than this.
 			
@@ -133,6 +133,11 @@
 		
 		
 	\item[\textbf{Task 4.3.}]
+		\begin{enumerate}
+			\item If $\theta_3$ is zero, assuming that the figure shows the default configuration of the robot arm, then the TCP is at the edge of its workspace. Therefore, the manipulator has a singularity at this configuration.
+			\item Assuming the length $a_2$ is much longer than the length $d_4$, then the arm can fold back in at $\theta_3 = 180\degree$ and therefore, we have a workspace boundary singularity here as well.
+		\end{enumerate}
+	
 
 	\item[\textbf{Task 4.4.}]
 	
