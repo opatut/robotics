@@ -17,6 +17,7 @@
 \usepackage{pgfplots}
 \usepackage{breqn}
 \usepackage{tikz}
+\usepackage{tikz-3dplot}
 \usepackage{fancyhdr}
 \usepackage{multicol}
 \usepackage{gensymb}
@@ -40,16 +41,16 @@
 \begin {enumerate}
 	\item[\textbf{Task 4.1.}]
 		To calculate the Jacobian matrix, we need the position of the end effector based on the joint angles. Therefore, we need to determine the homogeneous transformation from the base to the end effector point. We can reuse the general transformation matrix given in assignment 2 task 1, because the manipulator shown there is the same as the one in this task. Only $a_i$ needs to be changed to $l_i$. Then we have
-		
+
 		$${^{0}T_3} = \begin{pmatrix}
 			C_{1+2+3} & -S_{1+2+3} & 0 & C_{1+2+3}l_3 + C_{1+2}l_2+C_1l_1\\
 			S_{1+2+3} & C_{1+2+3} & 0 & S_{1+2+3}l_3 + S_{1+2}l_2 + S_1l_1\\
 			0 & 0 & 1 & 0\\
 			0 & 0 & 0 & 1
 		\end{pmatrix}$$
-		
+
 		Because this is a planar manipulator, we just need the x and y coodinates. These are $x = C_{1+2+3} \cdot l_3 + C_{1+2} \cdot l_2 + C_1 \cdot l_1$ and $y = S_{1+2+3} \cdot l_3 + S_{1+2} \cdot l_2 + S_1 \cdot l_1$. The Jacobian matrix has to be a $2 \times 3$ matrix, because we have 2 degrees of freedom in cartesian space and 3 degrees of freedom in joint space. The entries of this matrix are the partial derivatives of x and y.
-		
+
 		\begin{align*}
 			J &= \begin{pmatrix}
 				\frac{\partial x}{\partial \theta_1} & \frac{\partial x}{\partial \theta_2} & \frac{\partial x}{\partial \theta_3} \\[6pt]
@@ -60,18 +61,18 @@
 				C_{1+2+3} \cdot l_3 + C_{1+2} \cdot l_2 + C_1 \cdot l_1 & C_{1+2+3} \cdot l_3 + C_{1+2} \cdot l_2 & C_{1+2+3} \cdot l_3
 			\end{pmatrix}\\
 		\end{align*}
-		
-		
+
+
 	\item[\textbf{Task 4.2.}]
 		\begin{enumerate}
 			\item[1)] The visualization can be found in the following figure. The grey area that looks like a DVD is the reachable workspace of the arm. The red area depicts the space the second link can reach.
 			\begin{center}
 				\includegraphics[scale=0.2]{4-2-1.png}
 			\end{center}
-			
+
 			\item[2)]
 				We need the x and y coordinates of the end effector. We can determine these by calculating the transformation matrix and extract the respective entries:
-				
+
 				\begin{align*}
 					{^0T_1} &= Rot_{z}(\theta_1) \cdot Trans_{x_1}(l_1)\\
 					&= \begin{pmatrix}
@@ -95,26 +96,26 @@
 						0 & 0 & 0 & 1
 					\end{pmatrix}\\
 				\end{align*}
-				
+
 				So $x = C_1 \cdot l_1 + C_{1+2} \cdot l_2$ and $y = S_1 \cdot l_1 + S_{1+2} \cdot l_2$.
-				
+
 				Given that
-				
+
 				$$J = \begin{pmatrix}
 					\frac{\partial x}{\partial \theta_1} & \frac{\partial x}{\partial \theta_2} \\[6pt]
 					\frac{\partial y}{\partial \theta_1} & \frac{\partial y}{\partial \theta_2}
 				\end{pmatrix} \\$$
-					
+
 				this leads to
-				
+
 				$$J = \begin{pmatrix}
 					-S_1 \cdot l_1 - S_{1+2} \cdot l_2 & -S_{1+2} \cdot l_2 \\
 					C_1 \cdot l_1 + C_{1+2} \cdot l_2 & C_{1+2} \cdot l_2 \\
 				\end{pmatrix} \\$$
-				
+
 			\item[3)]
 				If the determinant of the Jacobian matrix is zero, then the matrix is not invertible and therefore singular. This is why we need to calculate the determinant of the previously calculated matrix and set it equal to zero:
-				
+
 				\begin{align*}
 					\det(J) &= 0\\
 					&= (-S_1 \cdot l_1 - S_{1+2} \cdot l_2) \cdot (C_{1+2} \cdot l_2) - (-S_{1+2} \cdot l_2) \cdot (C_1 \cdot l_1 + C_{1+2} \cdot l_2)\\
@@ -124,20 +125,20 @@
 					&\overset{\text{sum rule}}{=} l_1 \cdot l_2 \cdot S_{1+2-1}\\
 					&= l_1 \cdot l_2 \cdot S_{2} = 0
 				\end{align*}
-				
+
 				We assume that both lengths $l_1$ and $l_2$ are bigger than zero, therefore $S_2$ has to be zero. That happens, when $\theta_2 = 0\degree$ or $\theta_2 = 180\degree$. So these are the singular configurations of the manipulator.
-				
+
 			\item[4)] If $\theta_2$ is zero or 180 degree, the manipulator will be at the edge of its workspace. So the possibility of moving any further than that is not there. The singularity is when the joint velocity becomes infinite to maintain cartesian velocity. That is the case, because we cannot go any further than this.
-			
-		\end{enumerate}				
-		
-		
+
+		\end{enumerate}
+
+
 	\item[\textbf{Task 4.3.}]
 		\begin{enumerate}
 			\item If $\theta_3$ is zero, assuming that the figure shows the default configuration of the robot arm, then the TCP is at the edge of its workspace. Therefore, the manipulator has a singularity at this configuration.
 			\item Assuming the length $a_2$ is much longer than the length $d_4$, then the arm can fold back in at $\theta_3 = 180\degree$ and therefore, we have a workspace boundary singularity here as well.
 		\end{enumerate}
-	
+
 	\item[\textbf{Task 4.4.}]
 		We will combine rotations, that we can easily calculate, to get the overall matrix around an arbitrary vector $k$. This will be established by:
 		\begin{enumerate}
@@ -147,13 +148,13 @@
 			\item reversing the rotation about the global y axis.
 			\item reversing the rotation about the global z axis.
 		\end{enumerate}
-		
+
 		Because we use Roll-Pitch-Yaw angles, we need to append a new rotation matrix on the left side.	 Finally, we can calculate the resulting matrix with this formula:
-		
+
 		$$Rot_{k, \theta} = Rot_{z}(-\alpha) \cdot Rot_{y}(-\beta) \cdot Rot_{x}(\theta) \cdot Rot_{y}(\beta) \cdot Rot_{z}(\alpha)$$
-		
+
 		This leads to:
-		
+
 		\begin{align*}
 			Rot_{k, \theta} &= Rot_{z}(-\alpha) \cdot Rot_{y}(-\beta) \cdot Rot_{x}(\theta) \cdot Rot_{y}(\beta) \cdot Rot_{z}(\alpha)\\
 			&= \begin{pmatrix}
@@ -257,9 +258,9 @@
 				0 & 0 & 0 & 1\\
 			\end{pmatrix}\\
 		\end{align*}
-		
+
 		with
-		
+
 		\begin{align*}
 			a_x &= C_{-\alpha}C_{-\beta}C_{\beta}C_{\alpha} - S_{-\alpha}C_{\theta}S_{\alpha} + C_{-\alpha}S_{-\beta}S_{\theta}S_{\alpha} - S_{\beta}C_{\alpha}S_{-\alpha}S_{\theta} - S_{\beta}C_{\alpha}C_{-\alpha}S_{-\beta}C_{\theta}\\
 			&= C_{-\alpha}C_{-\beta}C_{\beta}C_{\alpha} - S_{-\alpha}C_{\theta}S_{\alpha} - S_{\beta}C_{\alpha}C_{-\alpha}S_{-\beta}C_{\theta}\\
@@ -286,17 +287,17 @@
 			&= S_{\beta}S_{\beta} + C_{\beta}C_{\theta}C_{\beta}\\
 			&= S_{\beta}^2 + C_{\beta}^2C_{\theta}\\
 		\end{align*}
-		
+
 		which is correct, because
-		
+
 		$$S_{-\alpha} = -S_{\alpha}, \quad S_{-\beta} = -S_{\beta}, \quad C_{-\alpha} = C_{\alpha}, \quad C_{-\beta} = C_{\beta}$$
-		
+
 		We observe $\alpha$ and $\beta$ and get that
-		
+
 		$$S_{\alpha} = \frac{k_y}{\sqrt{k_x^2 + k_y^2}}, \quad S_{\beta} = \frac{k_z}{\sqrt{k_x^2+k_y^2+k_z^2}}, \quad C_{\alpha} = \frac{k_x}{\sqrt{k_x^2 + k_y^2}}, \quad C_{\beta} = \frac{\sqrt{k_x^2 + k_y^2}}{\sqrt{k_x^2+k_y^2+k_z^2}}$$
-		
+
 		because of the definitions of sine and cosine. Now, we can put these equations into the entries of the matrix:
-		
+
 		\begin{align*}
 			a_x &= C_{\alpha}^2C_{\beta}^2 + S_{\alpha}^2C_{\theta} + S_{\beta}^2C_{\alpha}^2C_{\theta}\\
 			&= \frac{k_x^2}{k_x^2 + k_y^2} \cdot \frac{k_x^2 + k_y^2}{k_x^2 + k_y^2 + k_z^2} + \frac{k_y^2}{k_x^2+k_y^2}C_{\theta} + \frac{k_z^2}{k_x^2+k_y^2+k_z^2} \cdot \frac{k_x^2}{k_x^2+k_y^2}C_{\theta}\\
@@ -312,8 +313,115 @@
 			&= \frac{k_z^2}{k_x^2+k_y^2+k_z^2} + \frac{k_x^2 + k_y^2}{k_x^2 + k_y^2 + k_z^2} C_{\theta}\\
 			&= \frac{k_z^2 + (k_x^2 + k_y^2) C_{\theta}}{k_x^2 + k_y^2 + k_z^2}
 		\end{align*}
-		
-		
-		
+
+		\textbf{This did not lead us to the solution, but we nonetheless like the approach. There must be
+		some obvious error in our calculations or something we missed :(}
+
+
+	\item[\textbf{Task 4.4.}]
+
+		\textbf{Version 2:} We try a second time using a similar approach, but doing some calculations beforehand, under the assumption that our rotation axis $k$ is indeed a unit vector.
+
+		\begin{enumerate}
+			\item Rotate the vector into $xz$ plane (around global $x$ axis)
+			\item Rotate the vector onto $z$ axis (around global $y$ axis)
+			\item Rotate around $z$ axis by $\theta$
+			\item Reverse (b)
+			\item Reverse (a)
+		\end{enumerate}
+
+		% \tdplotsetmaincoords{60}{120}
+		% \begin{tikzpicture}[tdplot_main_coords,scale=1]
+
+		% 	%draw a grid in the x-y plane
+		% 	\draw[thin,->] (0,0,0) -- (6,0,0) node[anchor=south]{$x$};
+		% 	\draw[thin,->] (0,0,0) -- (0,5,0) node[anchor=south]{$y$};
+		% 	\draw[thin,->] (0,0,0) -- (0,0,5) node[anchor=south]{$z$};
+
+		% 	\draw[very thick,->] (0,0,0) -- (3,4,4) node[anchor=south]{$\vec{k}$};
+		% 	\draw[dashed] (3,4,0) -- (3,4,4);
+		% 	\draw[thick,->] (0,0,0) -- (3,4,0) node[anchor=north]{$\vec{d}$};
+		% 	\draw[dashed] (3,4,0) -- (3,0,0);
+		% 	\draw[dashed] (3,4,0) -- (0,4,0);
+
+		% 	\draw[thick,dashed,->] (0,0,0) -- (5,0,4) node[anchor=south]{$k'$};
+		% 	\draw[dashed] (5,0,0) -- (5,0,4);
+		% 	\draw[dashed] (0,0,4) -- (5,0,4);
+		% \end{tikzpicture}
+
+		There is no need for us to find out the angles to rotate about. Instead, we define a helping vector $\vec{d}$, that is the projection of $k$ onto the $yz$ plane.
+
+		For simplicity, we assume $k = (x, y, z)$ and use $c = \cos(\theta)$ and $s = \sin(\theta)$. The vector $\vec{d} = (0, y, z)$ has the length
+
+		$$d = |\vec{d}| = \sqrt{x^2 + y^2}$$
+
+		We now use these formulas for the angle $\alpha$ between two vectors $\vec{a}$ and $\vec{b}$:
+
+		$$\cos(\alpha) = \frac{\vec{a} \cdot \vec{b}}{|\vec{a}| \cdot |\vec{b}|}
+		\hspace{2cm}
+		\sin(\alpha) = \frac{| \vec{a} \times \vec{b} |}{|\vec{a}| \cdot |\vec{b}|}$$
+
+		For the first rotation, we get
+
+		$$\cos(\alpha_1) = \frac{(0,0,z) \cdot (0, y, z)}{z \cdot d} = \frac{z^2}{z \cdot d} = \frac{z}{d}$$
+		$$\sin(\alpha_1) = \frac{|(0,0,z) \times(0, y, z)|}{z \cdot d} = \frac{zy}{zd} = \frac{y}{d}$$
+
+		For the second rotation, we calculate the angles using $\vec{k}$ and $\vec{d}$, so
+
+		$$\cos(\alpha_2) = \frac{(x,y,z) \cdot (0, y, z)}{1 \cdot d} = \frac{y^2 + z^2}{d} = d$$
+		$$\sin(\alpha_2) = \frac{|(x,y,z) \times(0, y, z)|}{1 \cdot d} = \frac{\sqrt{x^2y^2+x^2z^2}}{\sqrt{y^2z^2}} = x$$
+
+		Now we have the cosine and sine form of both rotation angles, so we can build
+		our rotation matrices (using 3x3 matrices since we only care about the rotations):
+
+		$$Rot_{k,\theta} =
+			Rot^{-1}_x(\alpha_1)
+			Rot^{-1}_y(\alpha_2)
+			Rot_z(\theta)
+			Rot_y(\alpha_2)
+			Rot_x(\alpha_1)$$
+
+		With
+
+		$$Rot_x(\alpha_1) = \begin{pmatrix}
+			1 & 0 & 0\\
+			0 & \frac{z}{d} & -\frac{y}{d}\\
+			0 & \frac{y}{d} & \frac{z}{d}
+		\end{pmatrix}
+		\hspace{1cm}
+		Rot^{-1}_x(\alpha_1) = \begin{pmatrix}
+			1 & 0 & 0\\
+			0 & \frac{z}{d} & \frac{y}{d}\\
+			0 & -\frac{y}{d} & \frac{z}{d}
+		\end{pmatrix}$$
+
+		$$Rot_y(\alpha_2) = \begin{pmatrix}
+			d & 0 & -x\\
+			0 & 1 & 0\\
+			x & 0 & d
+		\end{pmatrix}
+		\hspace{1cm}
+		Rot^{-1}_y(\alpha_2) = \begin{pmatrix}
+			d & 0 & x\\
+			0 & 1 & 0\\
+			-x & 0 & d
+		\end{pmatrix}$$
+
+		$$Rot_z(\theta) = \begin{pmatrix}
+			c & -s & 0\\
+			s & c & 0\\
+			0 & 0 & 1
+		\end{pmatrix}$$
+
+		The result of above matrix multiplication is not very helpful, as it is
+		still a monstrous matrix very far from the desired result:
+
+		\includegraphics[width=\textwidth]{matrix.png}
+
+		Yes, I did use a matrix multiplier and made a screenshot. Yes, I also
+		did it by hand and had \emph{similar} results. Sadly, we don't know
+		where to go from here.
+
+
 \end {enumerate}
 \end{document}
