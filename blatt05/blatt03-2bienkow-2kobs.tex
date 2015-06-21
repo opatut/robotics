@@ -42,7 +42,7 @@
 \maketitle
 \begin {enumerate}
 	\item[\textbf{Task 5.1.}]
-		We wrote a script in Python to calculate the basis splines. These are the plots we got from our code:<
+		We wrote a script in Python to calculate the basis splines. These are the plots we got from our code:
 		
 		\includegraphics[width=0.5\textwidth]{5-1-k=1}
 		\includegraphics[width=0.5\textwidth]{5-1-k=2}
@@ -113,7 +113,20 @@
 		\lstinputlisting[language=python, frame=single, breaklines=true]{5.3.py}
 		
 	\item[\textbf{Task 5.4.}]
-		
+		\begin{enumerate}
+			\item We can calculate the necessary parts of the equation and insert them:
+				\begin{align*}
+					\tau(t) &= k_p \cdot 1 + k_v \cdot 0 + k_i \cdot (t - t_0)\\
+					&= k_p + k_i \cdot (t - t_0)\\
+				\end{align*}
+				for $t \geq 0, 0$ else.
+			\item As in (a), we can calculate the function as follows:
+				\begin{align*}
+					\tau(t) &= k_p \cdot \frac{t}{t_0} + k_v \cdot \frac{1}{t_0} + k_i \cdot \left(\frac{t^2}{2t_0} - \frac{t_0^2}{2t_0} \right)\\
+					&= \frac{k_p \cdot t + k_v}{t_0} + k_i \cdot \frac{t^2 - t_0^2}{2t_0}
+				\end{align*}
+				for $t \geq 0$ and $t_0 > 0, 0$ else
+		\end{enumerate}
 		
 		
 \end {enumerate}
