@@ -42,7 +42,7 @@
 \maketitle
 \begin {enumerate}
 	\item[\textbf{Task 5.1.}]
-		We wrote a script in Python to calculate the basis splines. These are the plots we got from our code:
+		We wrote a script in Python to calculate the basis splines. These are the plots we got from our code:<
 		
 		\includegraphics[width=0.5\textwidth]{5-1-k=1}
 		\includegraphics[width=0.5\textwidth]{5-1-k=2}
@@ -54,6 +54,29 @@
 		\lstinputlisting[language=python, frame=single, breaklines=true]{5.1.py}
 		
 	\item[\textbf{Task 5.2.}]
+		For $k = 1$, we can just use the given formula on slide 220:
+		$$N_{i,1}(t) = \begin{cases}
+			1 & \text{for } t_{i} \leq t < t_{i+1}\\
+			0 & \text{else}
+		\end{cases}$$
+		
+		For $k = 2$, we need to insert this definition into the recursive definition
+		$$N_{i,k}(t) = \frac{t-t_i}{t_{i+k-1}-t_i} N_{i, k-1}(t) + \frac{t_{i+k}-t}{t_{i+k}-t_{i+1}} N_{i+1, k-1}(t)$$
+		Since $t$ can't be satisfying both summands, we can split this up into the desired direct definition. Therefore, for $k = 2$:
+		$$N_{i,2}(t) = \begin{cases}
+			\frac{t-t_i}{t_{i+k-1}-t_i} & \text{for } t_{i} \leq t < t_{i+1}\\
+			\frac{t_{i+k}-t}{t_{i+k}-t_{i+1}} & \text{for } t_{i+1} \leq t < t_{i+2}\\
+			0 & \text{else}
+		\end{cases}$$
+		For the last case, we need to input this definition again into the recursive definition and think about, what values $t$ can have. Then we can define:
+		$$N_{i,3}(t) = \begin{cases}
+			\left( \frac{t-t_i}{t_{i+k-1}-t_i} \right)^2 & \text{for } t_{i} \leq t < t_{i+1}\\
+			\frac{t-t_i}{t_{i+k-1}-t_i} \cdot \frac{t_{i+k}-t}{t_{i+k}-t_{i+1}} + \frac{t_{i+k}-t}{t_{i+k}-t_{i+1}} \cdot \frac{t-t_{i+1}}{t_{i+k}-t_{i+1}} & \text{for } t_{i+1} \leq t < t_{i+2}\\
+			\frac{t_{i+k}-t}{t_{i+k}-t_{i+1}} \cdot \frac{t_{i+k+1}-t}{t_{i+k+1}-t_{i+2}} & \text{for } t_{i+2} \leq t < t_{i+3}\\
+			0 & \text{else}
+		\end{cases}$$
+		
+		It is important to see, that whenever the second case of the $k = 2$ definition is inserted, $i$ has to be increased by one, because it is passed so to the definition.
 		
 	\item[\textbf{Task 5.3.}]
 		\begin{align*}
