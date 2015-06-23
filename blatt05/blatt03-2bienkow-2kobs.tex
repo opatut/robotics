@@ -116,16 +116,27 @@
 		\begin{enumerate}
 			\item We can calculate the necessary parts of the equation and insert them:
 				\begin{align*}
-					\tau(t) &= k_p \cdot 1 + k_v \cdot 0 + k_i \cdot (t - t_0)\\
-					&= k_p + k_i \cdot (t - t_0)\\
+					\tau(t) &= k_p \cdot 1 + k_v \cdot 0 + k_i \cdot t\\
+					&= k_p + k_i \cdot t\\
 				\end{align*}
-				for $t \geq 0, 0$ else.
+				for $t \geq 0, 0$ else. So if we then use 1 for $k_p, k_v, k_i$ we have
+				$$\tau(t) = 1 + t$$
 			\item As in (a), we can calculate the function as follows:
 				\begin{align*}
-					\tau(t) &= k_p \cdot \frac{t}{t_0} + k_v \cdot \frac{1}{t_0} + k_i \cdot \left(\frac{t^2}{2t_0} - \frac{t_0^2}{2t_0} \right)\\
-					&= \frac{k_p \cdot t + k_v}{t_0} + k_i \cdot \frac{t^2 - t_0^2}{2t_0}
+					\tau(t) &= k_p \cdot t + k_v \cdot 1 + k_i \cdot \frac{t^2}{2}\\
+					&= k_p \cdot t + k_v + k_i \cdot \frac{t^2}{2}\\
 				\end{align*}
-				for $t \geq 0$ and $t_0 > 0, 0$ else
+				for $t \geq 0$, $0$ else. For $k_p = k_v = k_i = 1$, we get
+				$$\tau(t) = t + 1 + \frac{t^2}{2}$$
+				
+				We then plotted the functions with Python
+				
+				\includegraphics[width=\textwidth]{5-4}
+				
+				with the following Code:
+				
+				\lstinputlisting[language=python, frame=single, breaklines=true]{5.4.py}
+				
 		\end{enumerate}
 		
 		
