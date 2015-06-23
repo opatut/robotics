@@ -18,20 +18,23 @@ def N(i, k, time):
 func = np.vectorize(N)
 
 # Create an array with 200 evenly spaced numbers between 0 and 5
-x = np.linspace(0.0, 5.0, num=200)
+x = np.linspace(-0.1, 5.0, num=200)
 
 
 # Use every k with k in [1, 2, 3, 4]
 for k in range(1, 5):
-    # Use every i with i in [0, 1, 2, 3, 4]
-    for i in range(0, 5):
-        # Calculate all the numbers
-        y = func(i, k, x)
-        # Plot the function
-        plt.plot(x, y)
-        # Set the x-axis label
-        plt.xlabel("time step")
-        # Save the plot as png
-        plt.savefig('5-1-k=' + str(k) + '.png')
+    # Calculate all the numbers
+    y = func(0, k, x)
+    # Plot the function
+    plt.plot(x, y)
+    # Set the x-axis label
+    plt.xlabel("time")
+    # Set ranges for axes
+    plt.xlim([-0.1, 4.0])
+    plt.ylim([-0.05, 1.05])
+    # Grid
+    plt.grid()
+    # Save the plot as png
+    plt.savefig('5-1-k=' + str(k) + '.png')
     # Clear the figure
     plt.clf()
