@@ -20,20 +20,23 @@ func = np.vectorize(N)
 # Create an array with 200 evenly spaced numbers between 0 and 5
 x = np.linspace(-0.1, 5.0, num=200)
 
-
 # Use every k with k in [1, 2, 3, 4]
 for k in range(1, 5):
-    # Calculate all the numbers
-    y = func(0, k, x)
-    # Plot the function
-    plt.plot(x, y)
+    for i in range(0, 5-k):
+        # Calculate all the numbers
+        y = func(i, k, x)
+        # Plot the function
+        plt.plot(x, y, label="$N_{{{i}, {k}}}$".format(i=i, k=k))
+
     # Set the x-axis label
     plt.xlabel("time")
     # Set ranges for axes
-    plt.xlim([-0.1, 4.0])
+    plt.xlim([-0.1, 4.1])
     plt.ylim([-0.05, 1.05])
     # Grid
     plt.grid()
+    # Legend
+    plt.legend()
     # Save the plot as png
     plt.savefig('5-1-k=' + str(k) + '.png')
     # Clear the figure
