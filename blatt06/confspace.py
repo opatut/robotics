@@ -9,6 +9,12 @@ from shapely.geometry import Point
 from shapely.geometry.linestring import LineString
 from shapely.geometry.polygon import Polygon
 
+import matplotlib.pyplot as plt
+from matplotlib.path import Path
+import matplotlib.patches as patches
+
+from astar import astar
+
 # like range(), but with floats
 def frange(start, stop, step):
     r = start
@@ -63,7 +69,6 @@ mat2 = numpy.fromfunction(sampler(steps, polygons), (steps, steps))
 print("Combining c-obstacles...")
 matboth = numpy.maximum(mat1, mat2)
 
-from astar import astar
 
 def angle_to_pixel(a):
     return int(a / math.pi / 2 * steps)
@@ -84,9 +89,6 @@ print("Finding path...")
 #path1 = list(map(pixel_to_angle, astar(mat1,    start, end)))
 path2 = list(map(pixel_to_angle, astar(matboth, start, end)))
 
-import matplotlib.pyplot as plt
-from matplotlib.path import Path
-import matplotlib.patches as patches
 
 print("Plotting...")
 c = matplotlib.colors.colorConverter
