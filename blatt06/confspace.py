@@ -15,6 +15,8 @@ import matplotlib.patches as patches
 
 from astar import astar
 
+steps = 360
+
 # like range(), but with floats
 def frange(start, stop, step):
     r = start
@@ -59,7 +61,6 @@ def sampler(steps, obstacles):
     return numpy.vectorize(f)
 
 
-steps = 100#360
 print("Sampling circular obstacles...")
 mat1 = numpy.fromfunction(sampler(steps, circles), (steps, steps))
 
@@ -101,17 +102,23 @@ ex = [0, math.pi*2, 0, math.pi*2]
 ax.imshow(mat1, cmap=c1, origin='lower', extent=ex, interpolation='nearest')
 ax.imshow(mat2, cmap=c2, origin='lower', extent=ex, interpolation='nearest')
 
-plt.plot(degrees(45)+0.5/steps, degrees(60)+0.5/steps, marker='o', color='r', ls='')
-plt.plot(degrees(180)+0.5/steps, degrees(0)+0.5/steps, marker='o', color='r', ls='')
-#plt.plot(Path(path1), marker='', color='gray', ls='-')
-#plt.plot(Path(path2), marker='', color='blue', ls='-')
+p1  = (degrees(45)+0.5/steps, degrees(60)+0.5/steps)
+p2  = (degrees(180)+0.5/steps, degrees(0)+0.5/steps)
+p2x = (degrees(180)+0.5/steps, degrees(360)+0.5/steps)
 
-#ax.add_patch(patches.PathPatch(Path(path1), facecolor='none', lw=2))
-ax.add_patch(patches.PathPatch(Path(path2), facecolor='none', lw=2))
+plt.plot(*zip(*path2), marker='', color='black', ls='-')
+plt.plot(*zip(p1, p2x), marker='', color='black', ls='--')
 
+plt.plot(*p1, marker='o', color='r', ls='')
+plt.plot(*p2, marker='o', color='r', ls='')
+plt.plot(*p2x, marker='o', color='g', ls='')
 
-#ax.set_xticklabels(['']+alpha)
-#ax.set_yticklabels(['']+alpha)
+ax.text(*p1, s='start', verticalalignment='top', horizontalalignment='right')
+ax.text(*p2, s='goal', verticalalignment='bottom', horizontalalignment='right')
+ax.text(*p2x, s='goal (alternative)', verticalalignment='top', horizontalalignment='left')
+
+ax.set_xlabel('p1')
+ax.set_ylabel('p2')
 
 plt.axis(ex)
 plt.show()
